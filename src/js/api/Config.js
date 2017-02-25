@@ -16,6 +16,12 @@ var Config = {
       url: "https://api.themoviedb.org/3/authentication/token/new?api_key=" + API_KEY,
       method: "GET"
     };
+  },
+  getSearchAPI: function() {
+    return {
+      url: "https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&query=",
+      method: "GET"
+    }
   }
 }
 

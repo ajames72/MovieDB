@@ -55,9 +55,7 @@
 
 	var MovieDBView = __webpack_require__(6);
 
-	var movieDBView = new MovieDBView();
-
-	movieDBView.createEventListener();
+	MovieDBView.createEventListener();
 
 
 /***/ },
@@ -416,20 +414,21 @@
 	"use strict";
 
 	var API = __webpack_require__(7);
+	var Config = __webpack_require__(8)
 
 	var SubmitButton = function() {
 	  console.log("i'm being clicked");
 
-	  API.requestToken().then(function(response){
+	  API.requestToken(Config.getNewAuthenticationTokenAPI()).then(function(response){
 	    console.log("response", response);
 	  }, function(error){
 	    console.error(error);
 	  });
 	}
 
-	var MovieDBView = function(){
+	var MovieDBView = {
 
-	  this.createEventListener = function() {
+	  createEventListener: function() {
 	    var submitButton = document.getElementById("submit");
 
 	    if(typeof submitButton !== 'undefined') {
@@ -447,31 +446,20 @@
 
 /***/ },
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	var Config = __webpack_require__(8);
-
+	/**
+	 *
+	 */
 	var API = {
-	  requestToken: function() {
-	    return new Promise(function(resolve, reject){
+	  requestToken: function(url) {
+	    return new Promise(function(resolve, reject) {
 
 	      var oReq = new XMLHttpRequest();
-	      var settings = Config.getNewAuthenticationTokenAPI();
-	      /*
-	      oReq.addEventListener("load", function(evt){
-	        console.log(evt);
-	        resolve('success');
-	      });
-
-	      oReq.addEventListener("error", function(){
-	        reject('failed');
-	      });
-	      */
+	      var settings = url;
 
 	      oReq.onreadystatechange = function(){
-	        console.log("onreadystatechange", oReq.readyState);
 	        if(oReq.readyState === 4) {
-	          console.log("oReq.status", oReq.status);
 	          switch(oReq.status) {
 	            case 200:
 	              resolve(oReq.response);
@@ -485,6 +473,32 @@
 	      }
 
 	      oReq.open(settings.method, settings.url);
+
+	      oReq.send();
+	    });
+	  },
+	  searchMovieDB: function(settings, searchTerm, searchOptions) {
+
+	    var requestString = settings.url.concat(encodeURI(searchTerm));
+
+	    return new Promise(function(resolve, reject) {
+	      var oReq = new XMLHttpRequest();
+
+	      oReq.onreadystatechange = function(){
+	        if(oReq.readyState === 4) {
+	          switch(oReq.status) {
+	            case 200:
+	              resolve(oReq.response);
+	              break;
+	            case 401:
+	            case 404:
+	            default:
+	              reject(oReq.response);
+	          }
+	        }
+	      }
+
+	      oReq.open(settings.method, requestString);
 
 	      oReq.send();
 	    });
@@ -516,6 +530,12 @@
 	      url: "https://api.themoviedb.org/3/authentication/token/new?api_key=" + API_KEY,
 	      method: "GET"
 	    };
+	  },
+	  getSearchAPI: function() {
+	    return {
+	      url: "https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&query=",
+	      method: "GET"
+	    }
 	  }
 	}
 
