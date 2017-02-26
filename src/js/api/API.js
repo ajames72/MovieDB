@@ -1,12 +1,22 @@
 /**
- *
+ * @file Movie Database API Service
+ * @description Functions to call Movie Database RESTful endpoints
+ * @author Andrew James
+ * @version 0.1
  */
+
+"use strict";
+
 var API = {
-  requestToken: function(url) {
+  /**
+	 * @description calls the /authentication/token/new resource
+	 * @param {object} settings - url and method configuration
+	 * @returns {promise}
+	 **/
+  requestToken: function(settings) {
     return new Promise(function(resolve, reject) {
 
       var oReq = new XMLHttpRequest();
-      var settings = url;
 
       oReq.onreadystatechange = function(){
         if(oReq.readyState === 4) {
@@ -27,6 +37,11 @@ var API = {
       oReq.send();
     });
   },
+  /**
+	 * @description calls the /search/movie resource
+	 * @param {object} settings, {string} searchTerm, {object} searchOptions
+	 * @returns {promise}
+	 **/
   searchMovieDB: function(settings, searchTerm, searchOptions) {
 
     var requestString = settings.url.concat(encodeURI(searchTerm));

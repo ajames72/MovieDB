@@ -1,138 +1,110 @@
 var Result = require('./Result.js');
+var Movie = require('./Movie.js');
 
 describe('Result Model', function() {
   var testResultData = {
-    "poster_path": "/tvSlBzAdRE29bZe5yYWrJ2ds137.jpg",
-    "adult": true,
-    "overview": "overview description",
-    "release_date": "1977-05-25",
-    "genre_ids": [
-      12,
-      28,
-      878
+    "page": 1,
+    "results": [
+      {
+        "poster_path": "/tvSlBzAdRE29bZe5yYWrJ2ds137.jpg",
+        "adult": false,
+        "overview": "Princess Leia is captured and held hostage by the evil Imperial forces in their effort to take over the galactic Empire. Venturesome Luke Skywalker and dashing captain Han Solo team together with the loveable robot duo R2-D2 and C-3PO to rescue the beautiful princess and restore peace and justice in the Empire.",
+        "release_date": "1977-05-25",
+        "genre_ids": [
+          12,
+          28,
+          878
+        ],
+        "id": 11,
+        "original_title": "Star Wars",
+        "original_language": "en",
+        "title": "Star Wars",
+        "backdrop_path": "/4iJfYYoQzZcONB9hNzg0J0wWyPH.jpg",
+        "popularity": 16.619988,
+        "vote_count": 4958,
+        "video": false,
+        "vote_average": 8
+      },
+      {
+        "poster_path": "/weUSwMdQIa3NaXVzwUoIIcAi85d.jpg",
+        "adult": false,
+        "overview": "Thirty years after defeating the Galactic Empire, Han Solo and his allies face a new threat from the evil Kylo Ren and his army of Stormtroopers.",
+        "release_date": "2015-12-15",
+        "genre_ids": [
+          28,
+          12,
+          878,
+          14
+        ],
+        "id": 140607,
+        "original_title": "Star Wars: The Force Awakens",
+        "original_language": "en",
+        "title": "Star Wars: The Force Awakens",
+        "backdrop_path": "/njv65RTipNSTozFLuF85jL0bcQe.jpg",
+        "popularity": 14.360674,
+        "vote_count": 5796,
+        "video": false,
+        "vote_average": 7.5
+      },
+      {
+        "poster_path": "/fntcKx0aAvgfUs2dbVzQD7VEZ09.jpg",
+        "adult": false,
+        "overview": "Having taken her first steps into a larger world in Star Wars: The Force Awakens (2015), Rey continues her epic journey with Finn, Poe and Luke Skywalker in the next chapter of the saga.",
+        "release_date": "2017-12-13",
+        "genre_ids": [
+          28,
+          12,
+          14,
+          878
+        ],
+        "id": 181808,
+        "original_title": "Star Wars: The Last Jedi",
+        "original_language": "en",
+        "title": "Star Wars: The Last Jedi",
+        "backdrop_path": "/m5YrALhx4I8c0Lnu2Gq9W8aeC4.jpg",
+        "popularity": 8.126151,
+        "vote_count": 62,
+        "video": false,
+        "vote_average": 0
+      }
     ],
-    "id": 11,
-    "original_title": "Star Wars",
-    "original_language": "en",
-    "title": "Star Wars",
-    "backdrop_path": "/4iJfYYoQzZcONB9hNzg0J0wWyPH.jpg",
-    "popularity": 16.619988,
-    "vote_count": 4958,
-    "video": false,
-    "vote_average": 8
+    "total_results": 103,
+    "total_pages": 6
   };
 
   var resultModel = new Result(testResultData);
 
-  it('should contain a string property for poster_path', function(){
-    expect(typeof resultModel['poster_path'] === 'string').toBe(true);
+  it('should contain a number property for page', function(){
+    expect(typeof resultModel['page'] === 'number').toBe(true);
   });
 
-  it('should contain a string value for poster_path', function(){
-    expect(resultModel['poster_path']).toEqual(testResultData['poster_path']);
+  it('should contain a number value for poster_path', function(){
+    expect(resultModel['page']).toEqual(testResultData['page']);
   });
 
-  it('should contain a boolean property for adult', function() {
-    expect(typeof resultModel['adult'] === 'boolean').toBe(true);
+  it('should contain a Array property for results', function() {
+    expect(Array.isArray(resultModel['results'])).toBe(true);
   });
 
-  it('should contain a boolean value for adult', function() {
-    expect(resultModel['adult']).toBe(true);
+  it('should contain a array of Movies for results', function() {
+    for(movie in resultModel['results']) {
+      expect(movie instanceof Movie);
+    }
   });
 
-  it('should contain a string property for overview', function() {
-    expect(typeof resultModel['overview'] === 'string').toBe(true);
+  it('should contain a number property for total_results', function(){
+    expect(typeof resultModel['total_results'] === 'number').toBe(true);
   });
 
-  it('should contain a string value for overview', function() {
-    expect(resultModel['overview']).toEqual(testResultData['overview']);
-  });
-  /* Could create a Date object */
-  it('should contain a string property for release_date', function() {
-    expect(typeof resultModel['release_date'] === 'string').toBe(true);
+  it('should contain a number value for total_results', function(){
+    expect(resultModel['total_results']).toEqual(testResultData['total_results']);
   });
 
-  it('should contain a string value for release_date', function() {
-    expect(resultModel['release_date']).toEqual(testResultData['release_date']);
+  it('should contain a number property for total_pages', function(){
+    expect(typeof resultModel['total_pages'] === 'number').toBe(true);
   });
 
-  it('should contain a Array property for genre_ids', function() {
-    expect(Array.isArray(resultModel['genre_ids'])).toBe(true);
-  });
-
-  it('should contain a array value for genre_ids', function() {
-    expect(resultModel['genre_ids']).toEqual(testResultData['genre_ids']);
-  });
-
-  it('should contain a number property for id', function() {
-    expect(Number.isInteger(resultModel['id'])).toBe(true);
-  });
-
-  it('should contain a number value for id', function() {
-    expect(resultModel['id']).toEqual(testResultData['id']);
-  });
-
-  it('should contain a string property for original_title', function() {
-    expect(typeof resultModel['original_title'] === 'string').toBe(true);
-  });
-
-  it('should contain a string value for original_title', function() {
-    expect(resultModel['original_title']).toEqual(testResultData['original_title']);
-  });
-
-  it('should contain a string property for original_language', function() {
-    expect(typeof resultModel['original_language'] === 'string').toBe(true);
-  });
-
-  it('should contain a string value for original_language', function() {
-    expect(resultModel['original_language']).toEqual(testResultData['original_language']);
-  });
-
-  it('should contain a string property for title', function() {
-    expect(typeof resultModel['title'] === 'string').toBe(true);
-  });
-
-  it('should contain a string value for title', function() {
-    expect(resultModel['title']).toEqual(testResultData['title']);
-  });
-
-  it('should contain a string property for backdrop_path', function() {
-    expect(typeof resultModel['backdrop_path'] === 'string').toBe(true);
-  });
-
-  it('should contain a string value for backdrop_path', function() {
-    expect(resultModel['backdrop_path']).toEqual(testResultData['backdrop_path']);
-  });
-
-  it('should contain a number property for popularity', function() {
-    expect(typeof resultModel['popularity'] === 'number').toBe(true);
-  });
-
-  it('should contain a number value for popularity', function() {
-    expect(resultModel['popularity']).toEqual(testResultData['popularity']);
-  });
-
-  it('should contain a number property for vote_count', function() {
-    expect(typeof resultModel['vote_count'] === 'number').toBe(true);
-  });
-
-  it('should contain a number value for vote_count', function() {
-    expect(resultModel['vote_count']).toEqual(testResultData['vote_count']);
-  });
-
-  it('should contain a boolean property for video', function() {
-    expect(typeof resultModel['video'] === 'boolean').toBe(true);
-  });
-
-  it('should contain a boolean value for video', function() {
-    expect(resultModel['video']).toEqual(testResultData['video']);
-  });
-
-  it('should contain a number property for vote_average', function() {
-    expect(typeof resultModel['vote_average'] === 'number').toBe(true);
-  });
-
-  it('should contain a number value for vote_average', function() {
-    expect(resultModel['vote_average']).toEqual(testResultData['vote_average']);
+  it('should contain a number value for total_pages', function(){
+    expect(resultModel['total_pages']).toEqual(testResultData['total_pages']);
   });
 });

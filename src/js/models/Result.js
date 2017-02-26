@@ -1,22 +1,47 @@
+/**
+ * @file Movie Database Result model
+ * @description The data structure and functions for the Search Result object
+ * @author Andrew James
+ * @version 0.1
+ */
+
+"use strict";
+
+var Movie = require('./Movie.js');
+
 var Result = function(data) {
-  this.poster_path = "";
-  this.adult = false;
-  this.overview = "";
-  this.release_date = "";
-  this.genre_ids = [];
-  this.id = "";
-  this.original_title = "";
-  this.original_language = "";
-  this.title = "";
-  this.backdrop_path = "";
-  this.popularity = 0;
-  this.vote_count = 0;
-  this.video = false;
-  this.vote_average = 0;
-  
-  for(key in data) {
+  //  We probably should put getter & setter functions here
+  //  to ensure that the new properties are set to the correct types
+
+  /**
+   * {number}
+   */
+  this.page = 0;
+  /**
+   * {Array}
+   */
+  this.results = [];
+  /**
+   * {number}
+   */
+  this.total_results = 0;
+  /**
+   * {number}
+   */
+  this.total_pages = 0;
+
+  for(var key in data) {
     if(this.hasOwnProperty(key)) {
-      this[key] = data[key];
+      //We need to create Movie objects, so do not add here
+      if(key !== 'results') {
+        this[key] = data[key];
+      }
+    }
+  }
+
+  if(data.hasOwnProperty('results')) {
+    for(var result in data['results']) {
+      this.results.push(new Movie(result));
     }
   }
 }
