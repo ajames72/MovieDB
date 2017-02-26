@@ -52,10 +52,11 @@
 	 */
 
 	__webpack_require__(2);
+	var SearchPresenter = __webpack_require__(6);
 
-	var MovieDBView = __webpack_require__(6);
+	SearchPresenter.initialise();
 
-	MovieDBView.createEventListener();
+	SearchPresenter.createEventListener();
 
 
 /***/ },
@@ -411,41 +412,133 @@
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/**
+	 * @file Search Presenter
+	 * @description The Presenter object to act on the Result model and Search view (index.html)
+	 * @author Andrew James
+	 * @version 0.1
+	 */
+
 	"use strict";
 
-	var API = __webpack_require__(7);
-	var Config = __webpack_require__(8)
+	var Config = __webpack_require__(7);
+	var API = __webpack_require__(8);
+	var Result = __webpack_require__(9);
 
-	var SubmitButton = function() {
-	  console.log("i'm being clicked");
+	var SearchPresenter = {
+	  /**
+	   * @type {object}
+	   */
+	  inputField: undefined,
+	  /**
+	   * @type {object}
+	   */
+	  submitButton: undefined,
+	  /**
+		 * @description sets reference between the view input elements and the presenter properties
+		 * @param none
+		 * @returns {boolean}
+		 **/
+	  initialise: function() {
+	    SearchPresenter.inputField = document.getElementById("searchbox");
+	    SearchPresenter.submitButton = document.getElementById("submit");
 
-	  API.requestToken(Config.getNewAuthenticationTokenAPI()).then(function(response){
-	    console.log("response", response);
-	  }, function(error){
-	    console.error(error);
-	  });
-	}
-
-	var MovieDBView = {
-
-	  createEventListener: function() {
-	    var submitButton = document.getElementById("submit");
-
-	    if(typeof submitButton !== 'undefined') {
-	      submitButton.addEventListener('click', SubmitButton);
+	    if((typeof SearchPresenter.submitButton !== 'undefined') && (typeof SearchPresenter.inputField !== 'undefined')) {
 	      return true;
 	    } else {
-	      console.error("Cannot find buton element");
 	      return false;
 	    }
+	  },
+	  /**
+		 * @description creates a click listener on the submit button
+		 * @param none
+		 * @returns none
+		 **/
+	  createEventListener: function() {
+	    //SearchPresenter.submitButton.addEventListener('click', SearchPresenter.submit(SearchPresenter.getSearchTerm()));
+	    SearchPresenter.submitButton.addEventListener('click', function() {
+	      SearchPresenter.submit(SearchPresenter.getSearchTerm());
+	    }, false);
+	  },
+	  /**
+		 * @description gets the search term from the input field
+		 * @param none
+		 * @returns none
+		 **/
+	  getSearchTerm: function() {
+	    return SearchPresenter.inputField.value;
+	  },
+	  /**
+		 * @description search action for the Movie Database RESTful /search/movie resource
+		 * @param {string} searchTerm - search term for the searchMovieDB API
+		 * @returns {Promise}
+		 **/
+	  submit: function(searchTerm) {
+	    console.log("searchTerm", searchTerm);
+	    return new Promise(function(resolve, reject) {
+	      API.searchMovieDB(Config.getSearchAPI(), searchTerm).then(function(response) {
+	        console.log("response", response);
+	        resolve(new Result(response));
+	      }, function(error) {
+	        reject();
+	      });
+
+	    });
 	  }
 	}
 
-	module.exports = MovieDBView;
+	module.exports = SearchPresenter;
 
 
 /***/ },
 /* 7 */
+/***/ function(module, exports) {
+
+	/**
+	 * @file Movie Database REST API endpoint configuration
+	 * @description Functions to get the settings for the Movie Database REST API endpoints. This class could be used to get environment variables i.e. Dev, Q.A, Production
+	 * @author Andrew James
+	 * @version 0.1
+	 */
+
+	"use strict";
+
+	//Private properties
+	var API_KEY = "df3908a9e93ea4fa095429a46c0eec66";
+	var API_READ_ACCESS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjM5MDhhOWU5M2VhNGZhMDk1NDI5YTQ2Yz' +
+	                            'BlZWM2NiIsInN1YiI6IjU4YWRiOTVkYzNhMzY4MmZkZTAwNmVlYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdL' +
+	                            'CJ2ZXJzaW9uIjoxfQ.z1AZhXbEc6_WO5UagWzSEK9cmn-ih73-ai74tD0jniI';
+
+	var Config = {
+	  /**
+	   * @description - configuration for the /authentication/token/new API resource
+	   * @param
+	   * @returns {object} - the URL and HTTP Method
+	   */
+	  getNewAuthenticationTokenAPI: function(){
+	    return {
+	      url: "https://api.themoviedb.org/3/authentication/token/new?api_key=" + API_KEY,
+	      method: "GET"
+	    };
+	  },
+	  /**
+	   * @description - configuration for the /search/movie API resource
+	   * @param
+	   * @returns {object} - the URL and HTTP Method
+	   */
+	  getSearchAPI: function() {
+	    return {
+	      url: "https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&query=",
+	      method: "GET"
+	    }
+	  }
+	}
+
+	module.exports = Config;
+
+
+/***/ },
+/* 8 */
 /***/ function(module, exports) {
 
 	/**
@@ -524,50 +617,144 @@
 
 
 /***/ },
-/* 8 */
-/***/ function(module, exports) {
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * @file Movie Database REST API endpoint configuration
-	 * @description Functions to get the settings for the Movie Database REST API endpoints. This class could be used to get environment variables i.e. Dev, Q.A, Production
+	 * @file Movie Database Result model
+	 * @description The data structure and functions for the Search Result object
 	 * @author Andrew James
 	 * @version 0.1
 	 */
 
 	"use strict";
 
-	//Private properties
-	var API_KEY = "df3908a9e93ea4fa095429a46c0eec66";
-	var API_READ_ACCESS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjM5MDhhOWU5M2VhNGZhMDk1NDI5YTQ2Yz' +
-	                            'BlZWM2NiIsInN1YiI6IjU4YWRiOTVkYzNhMzY4MmZkZTAwNmVlYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdL' +
-	                            'CJ2ZXJzaW9uIjoxfQ.z1AZhXbEc6_WO5UagWzSEK9cmn-ih73-ai74tD0jniI';
+	var Movie = __webpack_require__(10);
 
-	var Config = {
+	var Result = function(data) {
+	  //  We probably should put getter & setter functions here
+	  //  to ensure that the new properties are set to the correct types
+
 	  /**
-	   * @description - configuration for the /authentication/token/new API resource
-	   * @param
-	   * @returns {object} - the URL and HTTP Method
+	   * @type {number}
 	   */
-	  getNewAuthenticationTokenAPI: function(){
-	    return {
-	      url: "https://api.themoviedb.org/3/authentication/token/new?api_key=" + API_KEY,
-	      method: "GET"
-	    };
-	  },
+	  this.page = 0;
 	  /**
-	   * @description - configuration for the /search/movie API resource
-	   * @param
-	   * @returns {object} - the URL and HTTP Method
+	   * @type {Array}
 	   */
-	  getSearchAPI: function() {
-	    return {
-	      url: "https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&query=",
-	      method: "GET"
+	  this.results = [];
+	  /**
+	   * @type {number}
+	   */
+	  this.total_results = 0;
+	  /**
+	   * @type {number}
+	   */
+	  this.total_pages = 0;
+
+	  //Set the object properties with the properties from the data
+	  for(var key in data) {
+	    if(this.hasOwnProperty(key)) {
+	      //We need to create Movie objects, so do not add here
+	      if(key !== 'results') {
+	        this[key] = data[key];
+	      }
+	    }
+	  }
+	  //Populate the result list array with Movie objects
+	  if(data.hasOwnProperty('results')) {
+	    for(var result in data['results']) {
+	      this.results.push(new Movie(result));
 	    }
 	  }
 	}
 
-	module.exports = Config;
+	module.exports = Result;
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	/**
+	 * @file Movie Database Movie model
+	 * @description The data structure and functions for the Movie List Result object
+	 * @author Andrew James
+	 * @version 0.1
+	 */
+
+	"use strict";
+
+	var Movie = function(data) {
+	  //  We probably should put getter & setter functions here
+	  //  to ensure that the new properties are set to the correct types
+
+	  /**
+	   * @type {string}
+	   */
+	  this.poster_path = "";
+	  /**
+	   * @type {boolean}
+	   */
+	  this.adult = false;
+	  /**
+	   * @type {string}
+	   */
+	  this.overview = "";
+	  /**
+	   * @type {string}
+	   */
+	  this.release_date = "";
+	  /**
+	   * @type {Array}
+	   */
+	  this.genre_ids = [];
+	  /**
+	   * @type {string}
+	   */
+	  this.id = "";
+	  /**
+	   * @type {string}
+	   */
+	  this.original_title = "";
+	  /**
+	   * @type {string}
+	   */
+	  this.original_language = "";
+	  /**
+	   * @type {string}
+	   */
+	  this.title = "";
+	  /**
+	   * @type {string}
+	   */
+	  this.backdrop_path = "";
+	  /**
+	   * @type {number}
+	   */
+	  this.popularity = 0;
+	  /**
+	   * @type {number}
+	   */
+	  this.vote_count = 0;
+	  /**
+	   * @type {boolean}
+	   */
+	  this.video = false;
+	  /**
+	   * @type {number}
+	   */
+	  this.vote_average = 0;
+
+	  //Set the object properties with the properties from the data
+	  for(var key in data) {
+	    if(this.hasOwnProperty(key)) {
+	      this[key] = data[key];
+	    }
+	  }
+	};
+
+	module.exports = Movie;
 
 
 /***/ }

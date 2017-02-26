@@ -68,8 +68,8 @@ describe('Result Model', function() {
         "vote_average": 0
       }
     ],
-    "total_results": 103,
-    "total_pages": 6
+    "total_results": 3,
+    "total_pages": 1
   };
 
   var resultModel = new Result(testResultData);

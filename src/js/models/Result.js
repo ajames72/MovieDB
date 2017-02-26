@@ -14,22 +14,23 @@ var Result = function(data) {
   //  to ensure that the new properties are set to the correct types
 
   /**
-   * {number}
+   * @type {number}
    */
   this.page = 0;
   /**
-   * {Array}
+   * @type {Array}
    */
   this.results = [];
   /**
-   * {number}
+   * @type {number}
    */
   this.total_results = 0;
   /**
-   * {number}
+   * @type {number}
    */
   this.total_pages = 0;
 
+  //Set the object properties with the properties from the data
   for(var key in data) {
     if(this.hasOwnProperty(key)) {
       //We need to create Movie objects, so do not add here
@@ -38,7 +39,7 @@ var Result = function(data) {
       }
     }
   }
-
+  //Populate the result list array with Movie objects
   if(data.hasOwnProperty('results')) {
     for(var result in data['results']) {
       this.results.push(new Movie(result));

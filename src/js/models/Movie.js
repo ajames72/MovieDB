@@ -12,59 +12,59 @@ var Movie = function(data) {
   //  to ensure that the new properties are set to the correct types
 
   /**
-   * {string}
+   * @type {string}
    */
   this.poster_path = "";
   /**
-   * {boolean}
+   * @type {boolean}
    */
   this.adult = false;
   /**
-   * {string}
+   * @type {string}
    */
   this.overview = "";
   /**
-   * {string}
+   * @type {string}
    */
   this.release_date = "";
   /**
-   * {Array}
+   * @type {Array}
    */
   this.genre_ids = [];
   /**
-   * {string}
+   * @type {string}
    */
   this.id = "";
   /**
-   * {string}
+   * @type {string}
    */
   this.original_title = "";
   /**
-   * {string}
+   * @type {string}
    */
   this.original_language = "";
   /**
-   * {string}
+   * @type {string}
    */
   this.title = "";
   /**
-   * {string}
+   * @type {string}
    */
   this.backdrop_path = "";
   /**
-   * {number}
+   * @type {number}
    */
   this.popularity = 0;
   /**
-   * {number}
+   * @type {number}
    */
   this.vote_count = 0;
   /**
-   * {boolean}
+   * @type {boolean}
    */
   this.video = false;
   /**
-   * {number}
+   * @type {number}
    */
   this.vote_average = 0;
 

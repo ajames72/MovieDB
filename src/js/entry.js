@@ -6,7 +6,8 @@
  */
 
 require("../less/MovieDB.less");
+var SearchPresenter = require('./presenters/SearchPresenter.js');
 
-var MovieDBView = require('./MovieDBView.js');
+SearchPresenter.initialise();
 
-MovieDBView.createEventListener();
+SearchPresenter.createEventListener();
