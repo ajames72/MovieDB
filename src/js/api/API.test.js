@@ -146,84 +146,232 @@ describe('API functions', () => {
       expect(API.searchMovieDB).toHaveBeenCalledWith(mockSettings, searchTerm, searchOptions);
     });
 
-    describe('API responses', function(){
-      beforeEach(function(){
-        var mockPromise = new Promise(function(resolve, reject){
-          promiseHelper = {
-    				resolve: resolve,
-            reject: reject
-    			};
-        });
+    describe('API response on a status code 200', function() {
+      var fakeServer, spyCallback;
+      var testSearchXHRResponse;
+      var mockSettings = {
+        url: "http://www.mockUrl.com/3/search/movie?api_key=123456&query=", method: "GET"
+      };
+      var searchTerm = "Search Term";
 
-        //reset
-        API.searchMovieDB = jasmine.createSpy().and.returnValue(mockPromise);
+      beforeEach(function() {
 
-        testSearchAPIResponse = API.searchMovieDB(mockSettings, searchTerm, searchOptions);
+        var mockResponse =
+        {
+          "page": 1,
+          "results": [],
+          "total_results": 10,
+          "total_pages": 10
+        };
+
+        fakeServer = sinon.fakeServer.create();
+        spyCallback = sinon.spy();
+
+        fakeServer.respondWith(
+          "GET",
+          "http://www.mockUrl.com/3/search/movie?api_key=123456&query=Search%20Term",
+          [
+            200,
+            {"Content-Type": "application/json"},
+            JSON.stringify(mockResponse)
+          ]
+        );
       });
 
-      describe('on a successful request', function() {
-        beforeEach(function() {
-          var mockResponse =
-          {
-            "page": 1,
-            "results": [],
-            "total_results": 10,
-            "total_pages": 10
-          };
-
-          promiseHelper.resolve(mockResponse);
-        });
-
-        it('should return a list of results', function(done){
-          testSearchAPIResponse.then(function(response){
-            expect(response.results).toEqual(jasmine.any(Array));
-            done();
-          });
-        });
+      beforeEach(function() {
+        testSearchXHRResponse = API.searchMovieDB(mockSettings, searchTerm);
       });
 
+      afterEach(function() {
 
-      describe('on a 401 response', function() {
-        beforeEach(function() {
-          var mockFailedResponse = {
-            "status_message": "Invalid API key: You must be granted a valid key.",
-            "success": false,
-            "status_code": 7
-          };
+        fakeServer.respond();
 
-          promiseHelper.reject(mockFailedResponse);
-        });
+        fakeServer.restore();
 
-        it('should return an appropriate error message', function(done){
-          testSearchAPIResponse.then(function(){}, function(error){
-            expect(error).toEqual(jasmine.objectContaining({
-              "status_message": "Invalid API key: You must be granted a valid key."
-            }));
-            done();
-          });
-        });
       });
 
-      describe('on a 404 response', function() {
-        beforeEach(function() {
-
-          var mockFailedResponse = {
-            "status_message": "The resource you requested could not be found.",
-            "status_code": 34
-          };
-
-          promiseHelper.reject(mockFailedResponse);
-        });
-
-        it('should return an appropriate error message', function(done){
-          testSearchAPIResponse.then(function(){}, function(error){
-            expect(error).toEqual(jasmine.objectContaining({
-              "status_message": "The resource you requested could not be found."
-            }));
-            done();
-          });
+      it('should return a list of results', function(){
+        testSearchXHRResponse.then(function(response){
+          expect(response.results).toEqual(jasmine.any(Array));
         });
       });
     });
-  })
+
+    describe('API response on a status code 401', function() {
+
+      var fakeServer, spyCallback;
+      var testSearchXHRErrResponse;
+      var mockSettings = {
+        url: "http://www.mockUrl.com/3/search/movie?api_key=123456&query=", method: "GET"
+      };
+      var searchTerm = "Search Term";
+
+      beforeEach(function() {
+
+        var mockFailedResponse = {
+          "status_message": "Invalid API key: You must be granted a valid key.",
+          "success": false,
+          "status_code": 7
+        };
+
+        fakeServer = sinon.fakeServer.create();
+        spyCallback = sinon.spy();
+
+        fakeServer.respondWith(
+          "GET",
+          "http://www.mockUrl.com/3/search/movie?api_key=123456&query=Search%20Term",
+          [
+            401,
+            {"Content-Type": "application/json"},
+            JSON.stringify(mockFailedResponse)
+          ]
+        );
+      });
+
+      beforeEach(function(){
+          testSearchXHRErrResponse = API.searchMovieDB(mockSettings, searchTerm);
+      });
+
+      afterEach(function() {
+
+        fakeServer.respond();
+
+        fakeServer.restore();
+
+      });
+
+      it('should return a status code of 401', function() {
+        testSearchXHRErrResponse.then(function(success) {}, function(error) {
+          expect(error.status).toEqual(401);
+        });
+      });
+
+      it('should return an appropriate error message', function(){
+        testSearchXHRErrResponse.then(function(success) {}, function(error) {
+          expect(error.errorResponse).toEqual(jasmine.objectContaining({
+            "status_message": "Invalid API key: You must be granted a valid key."
+          }));
+        });
+      });
+    });
+
+    describe('API response on a status code 404', function() {
+
+      var fakeServer, spyCallback;
+      var testSearchXHRErrResponse;
+      var mockSettings = {
+        url: "http://www.mockUrl.com/3/search/movie?api_key=123456&query=", method: "GET"
+      };
+      var searchTerm = "Search Term";
+
+      beforeEach(function() {
+
+        var mockFailedResponse = {
+          "status_message": "The resource you requested could not be found.",
+          "status_code": 34
+        };
+
+        fakeServer = sinon.fakeServer.create();
+        spyCallback = sinon.spy();
+
+        fakeServer.respondWith(
+          "GET",
+          "http://www.mockUrl.com/3/search/movie?api_key=123456&query=Search%20Term",
+          [
+            404,
+            {"Content-Type": "application/json"},
+            JSON.stringify(mockFailedResponse)
+          ]
+        );
+      });
+
+      beforeEach(function(){
+          testSearchXHRErrResponse = API.searchMovieDB(mockSettings, searchTerm);
+      });
+
+      afterEach(function() {
+
+        fakeServer.respond();
+
+        fakeServer.restore();
+
+      });
+
+      it('should return a status code of 404', function() {
+        testSearchXHRErrResponse.then(function(success) {}, function(error) {
+          expect(error.status).toEqual(404);
+        });
+      });
+
+      it('should return an appropriate error message', function(){
+        testSearchXHRErrResponse.then(function(success) {}, function(error) {
+          expect(error.errorResponse).toEqual(jasmine.objectContaining({
+            "status_message": "The resource you requested could not be found."
+          }));
+        });
+      });
+    });
+
+    describe('API response on a status code 422', function() {
+
+      var fakeServer, spyCallback;
+      var testSearchXHRErrResponse;
+      var mockSettings = {
+        url: "http://www.mockUrl.com/3/search/movie?api_key=123456&query=", method: "GET"
+      };
+      var searchTerm = "Search Term";
+
+      beforeEach(function() {
+
+        var mockFailedResponse = {
+          "errors": [
+            "query must be provided"
+          ]
+        }
+
+        fakeServer = sinon.fakeServer.create();
+        spyCallback = sinon.spy();
+
+        fakeServer.respondWith(
+          "GET",
+          "http://www.mockUrl.com/3/search/movie?api_key=123456&query=Search%20Term",
+          [
+            422,
+            {"Content-Type": "application/json"},
+            JSON.stringify(mockFailedResponse)
+          ]
+        );
+      });
+
+      beforeEach(function(){
+          testSearchXHRErrResponse = API.searchMovieDB(mockSettings, searchTerm);
+      });
+
+      afterEach(function() {
+
+        fakeServer.respond();
+
+        fakeServer.restore();
+
+      });
+
+      it('should return a status code of 422', function() {
+        testSearchXHRErrResponse.then(function(success) {}, function(error) {
+          expect(error.status).toEqual(422);
+        });
+      });
+
+      it('should return an array of error messages', function(){
+        testSearchXHRErrResponse.then(function(success) {}, function(error) {
+          expect(error.errorResponse['errors']).toEqual(jasmine.any(Array));
+        });
+      });
+
+      it('should return an appropriate error message', function(){
+        testSearchXHRErrResponse.then(function(success) {}, function(error) {
+          expect(error.errorResponse['errors'][0]).toEqual("query must be provided");
+        });
+      });
+    });
+  });
 });

@@ -13,10 +13,12 @@ var Result = require('../models/Result.js');
 
 var SearchPresenter = {
   /**
+   * @description reference to the test input element
    * @type {object}
    */
   inputField: undefined,
   /**
+   * @description reference to the submit button element
    * @type {object}
    */
   submitButton: undefined,
@@ -42,7 +44,14 @@ var SearchPresenter = {
 	 **/
   createEventListener: function() {
     SearchPresenter.submitButton.addEventListener('click', function() {
-      SearchPresenter.submit(SearchPresenter.getSearchTerm());
+      SearchPresenter.submit(SearchPresenter.getSearchTerm()).then(
+        function(result) {
+          console.log("Search Result", result);
+        },
+        function(err) {
+          console.log("error", err.status, err.errorResponse);
+        }
+      );
     }, false);
   },
   /**
@@ -63,10 +72,13 @@ var SearchPresenter = {
       API.searchMovieDB(Config.getSearchAPI(), searchTerm).then(function(response) {
         resolve(new Result(response));
       }, function(error) {
-        reject();
+        reject(error);
       });
 
     });
+  },
+  displayResults: function(results) {
+
   }
 }
 

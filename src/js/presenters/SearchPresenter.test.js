@@ -104,6 +104,28 @@ describe('SearchPresenter', function() {
 
       });
     });
+
+    describe('on an empty field submission', function() {
+      beforeEach(function() {
+        var mockResponse =
+        {
+          "errors": [
+            "query must be provided"
+          ]
+        };
+
+        promiseHelper.resolve(422, mockResponse);
+      });
+
+      it('should respond to an empty field', function() {
+        testSubmit.then(function() {}, function(err, failureMessage){
+          expect(err).toBe(422);
+          expect(failureMessage.errors[0]).toEqual("query must be provided");
+          done();
+        });
+      });
+
+    });
   });
 
 });

@@ -53,12 +53,13 @@ var API = {
         if(oReq.readyState === 4) {
           switch(oReq.status) {
             case 200:
-              resolve(oReq.response);
+              resolve(JSON.parse(oReq.response));
               break;
             case 401:
             case 404:
+            case 422:
             default:
-              reject(oReq.response);
+              reject({status: oReq.status, errorResponse: JSON.parse(oReq.response)});
           }
         }
       }

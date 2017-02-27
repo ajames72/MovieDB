@@ -427,10 +427,12 @@
 
 	var SearchPresenter = {
 	  /**
+	   * @description reference to the test input element
 	   * @type {object}
 	   */
 	  inputField: undefined,
 	  /**
+	   * @description reference to the submit button element
 	   * @type {object}
 	   */
 	  submitButton: undefined,
@@ -455,9 +457,15 @@
 		 * @returns none
 		 **/
 	  createEventListener: function() {
-	    //SearchPresenter.submitButton.addEventListener('click', SearchPresenter.submit(SearchPresenter.getSearchTerm()));
 	    SearchPresenter.submitButton.addEventListener('click', function() {
-	      SearchPresenter.submit(SearchPresenter.getSearchTerm());
+	      SearchPresenter.submit(SearchPresenter.getSearchTerm()).then(
+	        function(result) {
+	          console.log("Search Result", result);
+	        },
+	        function(err) {
+	          console.log("error", err.status, err.errorResponse);
+	        }
+	      );
 	    }, false);
 	  },
 	  /**
@@ -474,16 +482,18 @@
 		 * @returns {Promise}
 		 **/
 	  submit: function(searchTerm) {
-	    console.log("searchTerm", searchTerm);
 	    return new Promise(function(resolve, reject) {
 	      API.searchMovieDB(Config.getSearchAPI(), searchTerm).then(function(response) {
-	        console.log("response", response);
 	        resolve(new Result(response));
-	      }, function(error) {
-	        reject();
+	      }, function(err, failureMessage) {
+	        console.log("submit error", err, failureMessage);
+	        reject(err, failureMessage);
 	      });
 
 	    });
+	  },
+	  displayResults: function(results) {
+
 	  }
 	}
 
@@ -529,6 +539,17 @@
 	  getSearchAPI: function() {
 	    return {
 	      url: "https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&query=",
+	      method: "GET"
+	    }
+	  },
+	  /**
+	   * @description - configuration for the /configuration API resource
+	   * @param
+	   * @returns {object} - the URL and HTTP Method
+	   */
+	  getTMDBConfigurationAPI: function() {
+	    return {
+	      url: "https://api.themoviedb.org/3/configuration?api_key=" + API_KEY,
 	      method: "GET"
 	    }
 	  }
@@ -596,12 +617,13 @@
 	        if(oReq.readyState === 4) {
 	          switch(oReq.status) {
 	            case 200:
-	              resolve(oReq.response);
+	              resolve(JSON.parse(oReq.response));
 	              break;
 	            case 401:
 	            case 404:
+	            case 422:
 	            default:
-	              reject(oReq.response);
+	              reject({status: oReq.status, errorResponse: JSON.parse(oReq.response)});
 	          }
 	        }
 	      }

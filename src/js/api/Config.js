@@ -35,6 +35,17 @@ var Config = {
       url: "https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&query=",
       method: "GET"
     }
+  },
+  /**
+   * @description - configuration for the /configuration API resource
+   * @param
+   * @returns {object} - the URL and HTTP Method
+   */
+  getTMDBConfigurationAPI: function() {
+    return {
+      url: "https://api.themoviedb.org/3/configuration?api_key=" + API_KEY,
+      method: "GET"
+    }
   }
 }
 
