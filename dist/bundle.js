@@ -485,9 +485,8 @@
 	    return new Promise(function(resolve, reject) {
 	      API.searchMovieDB(Config.getSearchAPI(), searchTerm).then(function(response) {
 	        resolve(new Result(response));
-	      }, function(err, failureMessage) {
-	        console.log("submit error", err, failureMessage);
-	        reject(err, failureMessage);
+	      }, function(error) {
+	        reject(error);
 	      });
 
 	    });
@@ -632,6 +631,27 @@
 
 	      oReq.send();
 	    });
+	  },
+	  getMovieDBConfig: function(settings) {
+	    return new Promise(function(resolve, reject) {
+	      var oReq = new XMLHttpRequest();
+
+	      oReq.onreadystatechange = function(){
+	        if(oReq.readyState === 4) {
+	          switch(oReq.status) {
+	            case 200:
+	              resolve(JSON.parse(oReq.response));
+	              break;
+	            default:
+	              reject({status: oReq.status, errorResponse: JSON.parse(oReq.response)});
+	          }
+	        }
+	      }
+
+	      oReq.open(settings.method, settings.url);
+
+	      oReq.send();
+	    })
 	  }
 	};
 
