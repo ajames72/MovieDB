@@ -1,7 +1,108 @@
+var Config = require('../api/Config.js');
 var ResultsTemplate = require('./ResultsTemplate.js');
 var Result = require('../models/Result.js');
 
 describe('ResultsTemplate', function() {
+  var testConfig = {
+    "images": {
+      "base_url": "http://image.tmdb.org/t/p/",
+      "secure_base_url": "https://image.tmdb.org/t/p/",
+      "backdrop_sizes": [
+        "w300",
+        "w780",
+        "w1280",
+        "original"
+      ],
+      "logo_sizes": [
+        "w45",
+        "w92",
+        "w154",
+        "w185",
+        "w300",
+        "w500",
+        "original"
+      ],
+      "poster_sizes": [
+        "w92",
+        "w154",
+        "w185",
+        "w342",
+        "w500",
+        "w780",
+        "original"
+      ],
+      "profile_sizes": [
+        "w45",
+        "w185",
+        "h632",
+        "original"
+      ],
+      "still_sizes": [
+        "w92",
+        "w185",
+        "w300",
+        "original"
+      ]
+    },
+    "change_keys": [
+      "adult",
+      "air_date",
+      "also_known_as",
+      "alternative_titles",
+      "biography",
+      "birthday",
+      "budget",
+      "cast",
+      "certifications",
+      "character_names",
+      "created_by",
+      "crew",
+      "deathday",
+      "episode",
+      "episode_number",
+      "episode_run_time",
+      "freebase_id",
+      "freebase_mid",
+      "general",
+      "genres",
+      "guest_stars",
+      "homepage",
+      "images",
+      "imdb_id",
+      "languages",
+      "name",
+      "network",
+      "origin_country",
+      "original_name",
+      "original_title",
+      "overview",
+      "parts",
+      "place_of_birth",
+      "plot_keywords",
+      "production_code",
+      "production_companies",
+      "production_countries",
+      "releases",
+      "revenue",
+      "runtime",
+      "season",
+      "season_number",
+      "season_regular",
+      "spoken_languages",
+      "status",
+      "tagline",
+      "title",
+      "translations",
+      "tvdb_id",
+      "tvrage_id",
+      "type",
+      "video",
+      "videos"
+    ]
+  };
+
+  Config.TMDbConfiguration = testConfig;
+
   var testResultData = {
     "page": 1,
     "results": [
@@ -83,34 +184,50 @@ describe('ResultsTemplate', function() {
   });
 
   describe('on successful search', function() {
-    
+
     it('should create a div element to wrap the results output', function() {
-      expect(ResultsTemplate.createRootElement(resultModel).nodeName).toBe('DIV');
+      expect(ResultsTemplate.createRootElement().nodeName).toBe('DIV');
+    });
+
+    it('should create a wrapper element with class \'tmdb-result\'', function() {
+      expect(ResultsTemplate.createRootElement().className).toBe('tmdb-result');
     });
 
     describe('the movie element', function() {
       it('should create a div wrapper element', function() {
-        expect(ResultsTemplate.createMovieElement(testResultData.results[0]).nodeName).toBe('DIV');
+        expect(ResultsTemplate.createMovieElement(resultModel.results[0]).nodeName).toBe('DIV');
       });
 
-      it('should create a wrapper element with class \'tmdb-movie-wrapper\'', function() {
-        expect(ResultsTemplate.createMovieElement(testResultData.results[0]).className).toBe('tmdb-movie-wrapper');
+      it('should create a wrapper element with class \'tmdb-movie\'', function() {
+        expect(ResultsTemplate.createMovieElement(resultModel.results[0]).className).toBe('tmdb-movie');
       });
 
       it('should contain a div element for the movie image', function(){
-        expect(ResultsTemplate.createMovieElement(testResultData.results[0]).childNodes[0].nodeName).toBe('DIV');
+        expect(ResultsTemplate.createMovieElement(resultModel.results[0]).childNodes[0].nodeName).toBe('DIV');
       });
 
-      it('should contain an element for the movie image with class \'tmbd-movie-image\'', function(){
-        expect(ResultsTemplate.createMovieElement(testResultData.results[0]).childNodes[0].className).toEqual('tmbd-movie-image');
+      it('should contain an element for the movie image with class \'tmdb-movie__image\'', function(){
+        expect(ResultsTemplate.createMovieElement(resultModel.results[0]).childNodes[0].className).toEqual('tmdb-movie__image');
+      });
+
+      it('should contain a child img element', function() {
+        var imgElement = ResultsTemplate.createMovieElement(resultModel.results[0]).childNodes[0];
+        expect(imgElement.childNodes[0].nodeName).toBe('IMG');
       });
 
       it('should contain a div element for the movie description', function(){
-        expect(ResultsTemplate.createMovieElement(testResultData.results[0]).childNodes[1].nodeName).toBe('DIV');
+        expect(ResultsTemplate.createMovieElement(resultModel.results[0]).childNodes[1].nodeName).toBe('DIV');
       });
 
-      it('should contain an element for the movie description with class \'tmbd-movie-description\'', function(){
-        expect(ResultsTemplate.createMovieElement(testResultData.results[0]).childNodes[1].className).toEqual('tmbd-movie-description');
+      it('should contain an element for the movie description with class \'tmdb-movie__description\'', function(){
+        expect(ResultsTemplate.createMovieElement(resultModel.results[0]).childNodes[1].className).toEqual('tmdb-movie__description');
+      });
+
+      describe('child img element', function() {
+        it('should have an image source', function() {
+          var imgElement = ResultsTemplate.createMovieElement(resultModel.results[0]).childNodes[0];
+          //expect(imgElement.getAttribute('src')).toEqual('http://image.tmdb.org/t/p/w92/tvSlBzAdRE29bZe5yYWrJ2ds137.jpg');
+        });
       });
     });
   });

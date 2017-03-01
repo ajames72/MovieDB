@@ -95,7 +95,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  background-color: red;\n}\nbody div {\n  color: #1e1e1e;\n}\n", ""]);
+	exports.push([module.id, "/* Poster Sizes */\n/* based on a poster ratio of 13:20 */\nbody {\n  background-color: red;\n}\nbody div {\n  color: #1e1e1e;\n}\nbody .tmdb-result .tmdb-movie {\n  width: 92px;\n  height: 141.53846154px;\n}\n", ""]);
 
 	// exports
 
@@ -424,6 +424,7 @@
 	var Config = __webpack_require__(7);
 	var API = __webpack_require__(8);
 	var Result = __webpack_require__(9);
+	var ResultsTemplate = __webpack_require__(11);
 
 	var SearchPresenter = {
 	  /**
@@ -442,6 +443,13 @@
 		 * @returns {boolean}
 		 **/
 	  initialise: function() {
+
+	    API.getMovieDBConfig(Config.getTMDBConfigurationAPI()).then(function(response) {
+	      Config.TMDbConfiguration = response;
+	    }, function(error) {
+	      //Do something
+	    });
+
 	    SearchPresenter.inputField = document.getElementById("searchbox");
 	    SearchPresenter.submitButton = document.getElementById("submit");
 
@@ -460,7 +468,7 @@
 	    SearchPresenter.submitButton.addEventListener('click', function() {
 	      SearchPresenter.submit(SearchPresenter.getSearchTerm()).then(
 	        function(result) {
-	          console.log("Search Result", result);
+	          SearchPresenter.displayResults(result);
 	        },
 	        function(err) {
 	          console.log("error", err.status, err.errorResponse);
@@ -491,8 +499,25 @@
 
 	    });
 	  },
+	  /**
+	   * @description trigger display results process
+	   * @param {object} results - the response data from Movie Database search API
+	   * @returns none
+	   */
 	  displayResults: function(results) {
 
+	    var app = document.getElementById("app");
+
+	    var resultsNode = ResultsTemplate.createRootElement();
+
+	    for(var i in results['results']) {
+	      //console.log("Movie Element", results['results'][i]);
+	      var movieNode = ResultsTemplate.createMovieElement(results['results'][i]);
+
+	      resultsNode.appendChild(movieNode);
+	    }
+
+	    app.appendChild(resultsNode);
 	  }
 	}
 
@@ -551,7 +576,12 @@
 	      url: "https://api.themoviedb.org/3/configuration?api_key=" + API_KEY,
 	      method: "GET"
 	    }
-	  }
+	  },
+	  /**
+	   * @description
+	   * @type {object}
+	   */
+	  TMDbConfiguration: undefined
 	}
 
 	module.exports = Config;
@@ -705,8 +735,8 @@
 	  }
 	  //Populate the result list array with Movie objects
 	  if(data.hasOwnProperty('results')) {
-	    for(var result in data['results']) {
-	      this.results.push(new Movie(result));
+	    for(var i in data['results']) {
+	      this.results.push(new Movie(data['results'][i]));
 	    }
 	  }
 	}
@@ -792,11 +822,99 @@
 	  for(var key in data) {
 	    if(this.hasOwnProperty(key)) {
 	      this[key] = data[key];
+	      /*
+	      //remove leading '/'
+	      if(key === 'poster_path') {
+	        if(this['poster_path'].charAt(0) === '/') {
+	          this['poster_path'] = this['poster_path'].substr(1);
+	        }
+	      }
+	      */
 	    }
 	  }
 	};
 
 	module.exports = Movie;
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Config = __webpack_require__(7);
+
+	var ResultsTemplate = {
+	  createHTMLElement: function(nodeName, attributes) {
+
+	    var newElement = document.createElement(nodeName);
+
+	    if((attributes !== null) && (typeof attributes === 'object')) {
+	      //Set attributes
+	      for(var key in attributes) {
+	        if((key === 'className') || (key === 'class')) {
+	          newElement.className = attributes[key];
+	        } else if((key === 'style') && (typeof attributes['style'] === 'object')) {
+	          //Loop through style key/values
+	          var styles = attributes['style'];
+
+	          for(style in styles) {
+	            newElement.style[style] = styles[style];
+	          }
+	        } else {
+	          newElement.setAttribute(key, attributes[key]);
+	        }
+
+	      }
+	    }
+
+	    return newElement;
+	  },
+	  createRootElement: function(resultModel) {
+
+	    return ResultsTemplate.createHTMLElement('div', {
+	      className: "tmdb-result"
+	    });
+
+	  },
+	  createMovieElement: function(movie) {
+	    var movieWrapperCell = ResultsTemplate.createHTMLElement('div', {
+	      className: "tmdb-movie"
+	    });
+
+	    movieWrapperCell.appendChild(ResultsTemplate.createMovieImageElement(movie['poster_path'], movie['original_title']));
+
+	    var movieDescription = ResultsTemplate.createHTMLElement('div', {
+	      className: "tmdb-movie__description"
+	    });
+
+	    movieWrapperCell.appendChild(movieDescription);
+
+	    return movieWrapperCell;
+	  },
+	  createMovieImageElement: function(posterPath, altText) {
+	    //We could do lazy loading of the image,
+	    //check the image properties as it's loaded for height,
+	    //width & orientation to determine best presentation
+	    //but for now, just set the image path.
+
+	    var movieImage = ResultsTemplate.createHTMLElement('div', {
+	      className: "tmdb-movie__image"
+	    });
+
+	    //Do a test here to check the config has been loaded.
+	    var imgBasePath = Config.TMDbConfiguration.images.base_url;
+	    var movieImgElement = ResultsTemplate.createHTMLElement('img', {
+	      src: imgBasePath.concat(Config.TMDbConfiguration.images.poster_sizes[0], posterPath),
+	      alt: altText
+	    });
+
+	    movieImage.appendChild(movieImgElement);
+
+	    return movieImage;
+	  }
+	}
+
+	module.exports = ResultsTemplate;
 
 
 /***/ }

@@ -41,8 +41,8 @@ var Result = function(data) {
   }
   //Populate the result list array with Movie objects
   if(data.hasOwnProperty('results')) {
-    for(var result in data['results']) {
-      this.results.push(new Movie(result));
+    for(var i in data['results']) {
+      this.results.push(new Movie(data['results'][i]));
     }
   }
 }

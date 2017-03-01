@@ -10,6 +10,7 @@
 var Config = require('../api/Config.js');
 var API = require('../api/API.js');
 var Result = require('../models/Result.js');
+var ResultsTemplate = require('../templates/ResultsTemplate.js');
 
 var SearchPresenter = {
   /**
@@ -28,6 +29,13 @@ var SearchPresenter = {
 	 * @returns {boolean}
 	 **/
   initialise: function() {
+
+    API.getMovieDBConfig(Config.getTMDBConfigurationAPI()).then(function(response) {
+      Config.TMDbConfiguration = response;
+    }, function(error) {
+      //Do something
+    });
+
     SearchPresenter.inputField = document.getElementById("searchbox");
     SearchPresenter.submitButton = document.getElementById("submit");
 
@@ -46,7 +54,7 @@ var SearchPresenter = {
     SearchPresenter.submitButton.addEventListener('click', function() {
       SearchPresenter.submit(SearchPresenter.getSearchTerm()).then(
         function(result) {
-          console.log("Search Result", result);
+          SearchPresenter.displayResults(result);
         },
         function(err) {
           console.log("error", err.status, err.errorResponse);
@@ -77,8 +85,25 @@ var SearchPresenter = {
 
     });
   },
+  /**
+   * @description trigger display results process
+   * @param {object} results - the response data from Movie Database search API
+   * @returns none
+   */
   displayResults: function(results) {
 
+    var app = document.getElementById("app");
+
+    var resultsNode = ResultsTemplate.createRootElement();
+
+    for(var i in results['results']) {
+      //console.log("Movie Element", results['results'][i]);
+      var movieNode = ResultsTemplate.createMovieElement(results['results'][i]);
+
+      resultsNode.appendChild(movieNode);
+    }
+
+    app.appendChild(resultsNode);
   }
 }
 

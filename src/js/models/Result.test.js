@@ -88,7 +88,7 @@ describe('Result Model', function() {
 
   it('should contain a array of Movies for results', function() {
     for(movie in resultModel['results']) {
-      expect(movie instanceof Movie);
+      expect(resultModel['results'][movie] instanceof Movie);
     }
   });
 
@@ -106,5 +106,15 @@ describe('Result Model', function() {
 
   it('should contain a number value for total_pages', function(){
     expect(resultModel['total_pages']).toEqual(testResultData['total_pages']);
+  });
+
+  describe('the movie results', function() {
+    it('should have a poster_path', function() {
+      expect(resultModel['results'][0].poster_path).toEqual("/tvSlBzAdRE29bZe5yYWrJ2ds137.jpg");
+    });
+
+    it('should have an original title', function() {
+      expect(resultModel['results'][2].original_title).toEqual("Star Wars: The Last Jedi");
+    });
   });
 });

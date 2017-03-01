@@ -46,7 +46,12 @@ var Config = {
       url: "https://api.themoviedb.org/3/configuration?api_key=" + API_KEY,
       method: "GET"
     }
-  }
+  },
+  /**
+   * @description
+   * @type {object}
+   */
+  TMDbConfiguration: undefined
 }
 
 module.exports = Config;

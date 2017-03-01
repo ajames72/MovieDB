@@ -164,6 +164,58 @@ describe('Config API', function() {
         }));
       });
     });
+    // Test for error
+  });
 
+  describe('API response on a status code 401', function() {
+
+    var fakeServer, spyCallback;
+    var testSearchXHRErrResponse;
+
+    beforeEach(function() {
+      var mockResponse = {
+        "status_code": 7,
+        "status_message": "Invalid API key: You must be granted a valid key."
+      }
+
+      fakeServer = sinon.fakeServer.create();
+      spyCallback = sinon.spy();
+
+      fakeServer.respondWith(
+        "GET",
+        "http://www.mockUrl.com/3/configuration?api_key=123456",
+        [
+          401,
+          {"Content-Type": "application/json"},
+          JSON.stringify(mockResponse)
+        ]
+      );
+    });
+
+    beforeEach(function() {
+      testSearchXHRErrResponse = API.getMovieDBConfig(mockSettings);
+    });
+
+    afterEach(function() {
+
+      fakeServer.respond();
+
+      fakeServer.restore();
+
+    });
+
+    it('should return a status code of 401', function() {
+      testSearchXHRErrResponse.then(function(success) {}, function(error) {
+        expect(error.status).toEqual(401);
+      });
+    });
+
+    it('should return an appropriate error message', function(){
+      testSearchXHRErrResponse.then(function(success) {}, function(error) {
+        expect(error.errorResponse).toEqual(jasmine.objectContaining({
+          "status_message": "Invalid API key: You must be granted a valid key."
+        }));
+      });
+    });
   });
 });
