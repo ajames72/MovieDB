@@ -1,6 +1,21 @@
+/**
+ * @file Results Template
+ * @description Object to manage the display of the search results
+ * @author Andrew James
+ * @version 0.1
+ */
+
+"use strict";
+
 var Config = require('../api/Config.js');
 
 var ResultsTemplate = {
+  /**
+   * @description helper function to generate HTMLElement objects
+   * @param {string} nodeName - the HTMLElement name
+   * @param {object} attributes - key value pair element attributes
+   * @returns {HTMLElement}
+   **/
   createHTMLElement: function(nodeName, attributes) {
 
     var newElement = document.createElement(nodeName);
@@ -26,6 +41,11 @@ var ResultsTemplate = {
 
     return newElement;
   },
+  /**
+   * @description creates the results wrapper DIV element
+   * @param none
+   * @returns {HTMLElement}
+   **/
   createRootElement: function() {
 
     return ResultsTemplate.createHTMLElement('div', {
@@ -33,6 +53,11 @@ var ResultsTemplate = {
     });
 
   },
+  /**
+   * @description creates a movie display DIV element
+   * @param {Movie} movie - movie data
+   * @returns {HTMLElement}
+   **/
   createMovieElement: function(movie) {
     var movieWrapperCell = ResultsTemplate.createHTMLElement('div', {
       className: "tmdb-movie"
@@ -48,6 +73,12 @@ var ResultsTemplate = {
 
     return movieWrapperCell;
   },
+  /**
+   * @description creates the movie img element and DIV wrapper
+   * @param {string} posterPath - the path for the poster image taken from Movie.poster_path
+   * @param {string} altText - movie img alt text taken from Movie.original_title
+   * @returns {HTMLElement}
+   **/
   createMovieImageElement: function(posterPath, altText) {
     //We could do lazy loading of the image,
     //check the image properties as it's loaded for height,

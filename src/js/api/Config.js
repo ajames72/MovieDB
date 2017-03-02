@@ -16,7 +16,7 @@ var API_READ_ACCESS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZj
 var Config = {
   /**
    * @description - configuration for the /authentication/token/new API resource
-   * @param
+   * @param none
    * @returns {object} - the URL and HTTP Method
    */
   getNewAuthenticationTokenAPI: function(){
@@ -27,7 +27,7 @@ var Config = {
   },
   /**
    * @description - configuration for the /search/movie API resource
-   * @param
+   * @param none
    * @returns {object} - the URL and HTTP Method
    */
   getSearchAPI: function() {
@@ -38,7 +38,7 @@ var Config = {
   },
   /**
    * @description - configuration for the /configuration API resource
-   * @param
+   * @param none
    * @returns {object} - the URL and HTTP Method
    */
   getTMDBConfigurationAPI: function() {

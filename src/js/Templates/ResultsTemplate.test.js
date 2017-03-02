@@ -175,6 +175,10 @@ describe('ResultsTemplate', function() {
 
   var resultModel = new Result(testResultData);
 
+  it('should create an HTMLElement', function() {
+    expect(ResultsTemplate.createHTMLElement('div') instanceof HTMLElement).toBeTruthy();
+  });
+
   it('should create HTML DIV Elements', function() {
     expect(ResultsTemplate.createHTMLElement('div').nodeName).toBe('DIV');
   });
@@ -182,6 +186,8 @@ describe('ResultsTemplate', function() {
   it('should set the class of a new HTML element', function() {
     expect(ResultsTemplate.createHTMLElement('div', { className: 'my-test-class' }).className).toBe('my-test-class');
   });
+
+  /* @TODO Run some unit tests on the style attributes */
 
   describe('on successful search', function() {
 

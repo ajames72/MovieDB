@@ -51,8 +51,8 @@
 	 * There is no linting in this project, we would configure webpacks to handle linting
 	 */
 
-	__webpack_require__(2);
-	var SearchPresenter = __webpack_require__(6);
+	__webpack_require__(4);
+	var SearchPresenter = __webpack_require__(8);
 
 	SearchPresenter.initialise();
 
@@ -61,16 +61,18 @@
 
 /***/ },
 /* 1 */,
-/* 2 */
+/* 2 */,
+/* 3 */,
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(3);
+	var content = __webpack_require__(5);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(5)(content, {});
+	var update = __webpack_require__(7)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -87,21 +89,21 @@
 	}
 
 /***/ },
-/* 3 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(4)();
+	exports = module.exports = __webpack_require__(6)();
 	// imports
 
 
 	// module
-	exports.push([module.id, "/* Poster Sizes */\n/* based on a poster ratio of 13:20 */\nbody {\n  background-color: red;\n}\nbody div {\n  color: #1e1e1e;\n}\nbody .tmdb-result .tmdb-movie {\n  width: 92px;\n  height: 141.53846154px;\n}\n", ""]);
+	exports.push([module.id, "/* Poster Sizes */\n/* based on a poster ratio of 13:20 */\nbody {\n  background-color: #004225;\n}\ndiv {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  border: 0;\n  color: #efefef;\n}\ninput:focus,\nbutton:focus {\n  outline: none;\n}\n#app {\n  width: 100%;\n  display: inline-block;\n  text-align: center;\n}\n.tmdb-search {\n  display: inline-block;\n  width: 700px;\n  margin-left: auto;\n  margin-right: auto;\n}\n.tmdb-search .tmdb-search__input {\n  width: 580px;\n  float: left;\n}\n.tmdb-search .tmdb-search__input > input {\n  font-size: 1.375em;\n  width: 564px;\n  padding-left: 16px;\n  border: none;\n  box-shadow: none;\n  font-weight: normal;\n  background-color: #efefef;\n  color: #010101;\n  height: 44px;\n  line-height: 44px;\n  float: left;\n  -webkit-border-radius: 5px;\n  -moz-border-radius: 5px;\n  border-radius: 5px;\n}\n.tmdb-search .tmdb-search__submit {\n  float: right;\n  width: 110px;\n}\n.tmdb-search .tmdb-search__submit > button {\n  background: linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  background: -webkit-linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  background: -ms-linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  background: -o-linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  background: -moz-linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  -webkit-border-radius: 5px;\n  -moz-border-radius: 5px;\n  border-radius: 5px;\n  font-family: Arial;\n  color: #ffffff;\n  font-size: 20px;\n  padding: 10px 20px 10px 20px;\n  text-decoration: none;\n  box-shadow: none;\n}\n.tmdb-search .tmdb-search__submit > button:hover {\n  background: linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  background: -webkit-linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  background: -ms-linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  background: -o-linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  background: -moz-linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  text-decoration: none;\n}\n.tmdb-result {\n  display: block;\n  width: auto;\n  margin: 0 7%;\n}\n.tmdb-result .tmdb-movie {\n  display: inline-block;\n}\n.tmdb-result .tmdb-movie > .tmdb-movie__image {\n  display: inline-block;\n  background-color: #005630;\n  width: 102px;\n  height: 151.53846154px;\n  padding: 5px;\n  margin: 5px;\n  border: 1px solid black;\n  overflow: hidden;\n}\n.tmdb-result .tmdb-movie > .tmdb-movie__image > img {\n  width: 87px;\n  height: 136.53846154px;\n  border: 1px solid black;\n}\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 4 */
+/* 6 */
 /***/ function(module, exports) {
 
 	/*
@@ -157,7 +159,7 @@
 
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -409,7 +411,7 @@
 
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -421,10 +423,10 @@
 
 	"use strict";
 
-	var Config = __webpack_require__(7);
-	var API = __webpack_require__(8);
-	var Result = __webpack_require__(9);
-	var ResultsTemplate = __webpack_require__(11);
+	var Config = __webpack_require__(9);
+	var API = __webpack_require__(10);
+	var Result = __webpack_require__(11);
+	var ResultsTemplate = __webpack_require__(13);
 
 	var SearchPresenter = {
 	  /**
@@ -511,7 +513,6 @@
 	    var resultsNode = ResultsTemplate.createRootElement();
 
 	    for(var i in results['results']) {
-	      //console.log("Movie Element", results['results'][i]);
 	      var movieNode = ResultsTemplate.createMovieElement(results['results'][i]);
 
 	      resultsNode.appendChild(movieNode);
@@ -525,7 +526,7 @@
 
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -546,7 +547,7 @@
 	var Config = {
 	  /**
 	   * @description - configuration for the /authentication/token/new API resource
-	   * @param
+	   * @param none
 	   * @returns {object} - the URL and HTTP Method
 	   */
 	  getNewAuthenticationTokenAPI: function(){
@@ -557,7 +558,7 @@
 	  },
 	  /**
 	   * @description - configuration for the /search/movie API resource
-	   * @param
+	   * @param none
 	   * @returns {object} - the URL and HTTP Method
 	   */
 	  getSearchAPI: function() {
@@ -568,7 +569,7 @@
 	  },
 	  /**
 	   * @description - configuration for the /configuration API resource
-	   * @param
+	   * @param none
 	   * @returns {object} - the URL and HTTP Method
 	   */
 	  getTMDBConfigurationAPI: function() {
@@ -588,7 +589,7 @@
 
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports) {
 
 	/**
@@ -603,7 +604,7 @@
 	var API = {
 	  /**
 		 * @description calls the /authentication/token/new resource
-		 * @param {object} settings - url and method configuration
+		 * @param {object} settings - the url and http method taken from Config
 		 * @returns {promise}
 		 **/
 	  requestToken: function(settings) {
@@ -632,7 +633,9 @@
 	  },
 	  /**
 		 * @description calls the /search/movie resource
-		 * @param {object} settings, {string} searchTerm, {object} searchOptions
+		 * @param {object} settings - the url and http method taken from Config
+	   * @param {string} searchTerm - value used to search the Movie Database
+	   * @param {object} searchOptions - additional optional search refinement key value pairs
 		 * @returns {promise}
 		 **/
 	  searchMovieDB: function(settings, searchTerm, searchOptions) {
@@ -662,6 +665,11 @@
 	      oReq.send();
 	    });
 	  },
+	  /**
+		 * @description calls the /configuration resource
+		 * @param {object} settings - the url and http method taken from Config
+		 * @returns {promise}
+		 **/
 	  getMovieDBConfig: function(settings) {
 	    return new Promise(function(resolve, reject) {
 	      var oReq = new XMLHttpRequest();
@@ -689,7 +697,7 @@
 
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -701,7 +709,7 @@
 
 	"use strict";
 
-	var Movie = __webpack_require__(10);
+	var Movie = __webpack_require__(12);
 
 	var Result = function(data) {
 	  //  We probably should put getter & setter functions here
@@ -745,7 +753,7 @@
 
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/**
@@ -822,14 +830,6 @@
 	  for(var key in data) {
 	    if(this.hasOwnProperty(key)) {
 	      this[key] = data[key];
-	      /*
-	      //remove leading '/'
-	      if(key === 'poster_path') {
-	        if(this['poster_path'].charAt(0) === '/') {
-	          this['poster_path'] = this['poster_path'].substr(1);
-	        }
-	      }
-	      */
 	    }
 	  }
 	};
@@ -838,12 +838,27 @@
 
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Config = __webpack_require__(7);
+	/**
+	 * @file Results Template
+	 * @description Object to manage the display of the search results
+	 * @author Andrew James
+	 * @version 0.1
+	 */
+
+	"use strict";
+
+	var Config = __webpack_require__(9);
 
 	var ResultsTemplate = {
+	  /**
+	   * @description helper function to generate HTMLElement objects
+	   * @param {string} nodeName - the HTMLElement name
+	   * @param {object} attributes - key value pair element attributes
+	   * @returns {HTMLElement}
+	   **/
 	  createHTMLElement: function(nodeName, attributes) {
 
 	    var newElement = document.createElement(nodeName);
@@ -869,13 +884,23 @@
 
 	    return newElement;
 	  },
-	  createRootElement: function(resultModel) {
+	  /**
+	   * @description creates the results wrapper DIV element
+	   * @param none
+	   * @returns {HTMLElement}
+	   **/
+	  createRootElement: function() {
 
 	    return ResultsTemplate.createHTMLElement('div', {
 	      className: "tmdb-result"
 	    });
 
 	  },
+	  /**
+	   * @description creates a movie display DIV element
+	   * @param {Movie} movie - movie data
+	   * @returns {HTMLElement}
+	   **/
 	  createMovieElement: function(movie) {
 	    var movieWrapperCell = ResultsTemplate.createHTMLElement('div', {
 	      className: "tmdb-movie"
@@ -891,6 +916,12 @@
 
 	    return movieWrapperCell;
 	  },
+	  /**
+	   * @description creates the movie img element and DIV wrapper
+	   * @param {string} posterPath - the path for the poster image taken from Movie.poster_path
+	   * @param {string} altText - movie img alt text taken from Movie.original_title
+	   * @returns {HTMLElement}
+	   **/
 	  createMovieImageElement: function(posterPath, altText) {
 	    //We could do lazy loading of the image,
 	    //check the image properties as it's loaded for height,

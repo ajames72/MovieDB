@@ -97,7 +97,6 @@ var SearchPresenter = {
     var resultsNode = ResultsTemplate.createRootElement();
 
     for(var i in results['results']) {
-      //console.log("Movie Element", results['results'][i]);
       var movieNode = ResultsTemplate.createMovieElement(results['results'][i]);
 
       resultsNode.appendChild(movieNode);

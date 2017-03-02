@@ -10,7 +10,7 @@
 var API = {
   /**
 	 * @description calls the /authentication/token/new resource
-	 * @param {object} settings - url and method configuration
+	 * @param {object} settings - the url and http method taken from Config
 	 * @returns {promise}
 	 **/
   requestToken: function(settings) {
@@ -39,7 +39,9 @@ var API = {
   },
   /**
 	 * @description calls the /search/movie resource
-	 * @param {object} settings, {string} searchTerm, {object} searchOptions
+	 * @param {object} settings - the url and http method taken from Config
+   * @param {string} searchTerm - value used to search the Movie Database
+   * @param {object} searchOptions - additional optional search refinement key value pairs
 	 * @returns {promise}
 	 **/
   searchMovieDB: function(settings, searchTerm, searchOptions) {
@@ -69,6 +71,11 @@ var API = {
       oReq.send();
     });
   },
+  /**
+	 * @description calls the /configuration resource
+	 * @param {object} settings - the url and http method taken from Config
+	 * @returns {promise}
+	 **/
   getMovieDBConfig: function(settings) {
     return new Promise(function(resolve, reject) {
       var oReq = new XMLHttpRequest();

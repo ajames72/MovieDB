@@ -1,23 +1,105 @@
 @import 'variables';
+@import 'colors';
+@import 'mixins';
 
 body {
 	background-color: @bgColor;
+}
+div {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	color: @foreColor;
+}
 
-	div {
-		color: @foreColor;
+input:focus,
+button:focus {
+    outline: none;
+}
+
+#app {
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+}
+
+.tmdb-search {
+
+	display: inline-block;
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+
+	.tmdb-search__input {
+		width: 580px;
+		float: left;
+
+		> input {
+			font-size: 1.375em;
+			width: 564px;
+			padding-left: 16px;
+			border: none;
+			box-shadow: none;
+			font-weight: normal;
+			background-color: @off-white;
+			color: @near-black;
+			height: 44px;
+			line-height: 44px;
+			float: left;
+			.border-radius(5px);
+		}
+
 	}
-	.tmdb-search {
-		.tmdb-search__input {
+	.tmdb-search__submit {
+		float: right;
+		width: 110px;
 
-		}
-		.tmdb-search__submit {
+		> button {
+			.gradient-background-vendor-prefixes(@button-color-from, @button-color-to);
+			.border-radius(5px);
+			font-family: Arial;
+			color: #ffffff;
+			font-size: 20px;
+			padding: 10px 20px 10px 20px;
+			text-decoration: none;
+			box-shadow: none;
 
+			&:hover {
+				.gradient-background-vendor-prefixes(@button-color-from-hover, @button-color-to-hover);
+				text-decoration: none;
+			}
 		}
+
 	}
-	.tmdb-result {
-		.tmdb-movie {
-			width: @poster_width_base;
-			height: @poster_height_base;
+}
+.tmdb-result {
+
+	display: block;
+	width: auto;
+	margin: 0 7%;
+
+	.tmdb-movie {
+
+		display: inline-block;
+
+		> .tmdb-movie__image {
+
+			display: inline-block;
+			background-color: @posterBgColor;
+			width: @poster_width_base + (@poster_padding_base * 2);
+			height: @poster_height_base + (@poster_padding_base * 2);
+			padding: @poster_padding_base;
+			margin: @poster_margin_base;
+			border: 1px solid black;
+			overflow: hidden;
+
+			> img {
+				width: @poster_width_base - @poster_padding_base;
+				height: @poster_height_base - @poster_padding_base;
+				border: 1px solid black;
+			}
 		}
+
 	}
 }
