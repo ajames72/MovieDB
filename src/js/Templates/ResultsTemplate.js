@@ -49,7 +49,8 @@ var ResultsTemplate = {
   createRootElement: function() {
 
     return ResultsTemplate.createHTMLElement('div', {
-      className: "tmdb-result"
+      className: "tmdb-result",
+      id: "tmdb-result"
     });
 
   },
@@ -99,6 +100,62 @@ var ResultsTemplate = {
     movieImage.appendChild(movieImgElement);
 
     return movieImage;
+  },
+  createLanguageOptionElement: function(languages) {
+    var selectElement = ResultsTemplate.createHTMLElement('select', {
+      name: "tmdb-search-option-language",
+      id: "tmdb-search-option-language",
+      class: "tmdb-search-option"
+    });
+
+    var defaultOption = ResultsTemplate.createHTMLElement('option', {
+      value: "any",
+      selected: "true"
+    });
+
+    defaultOption.textContent = "any";
+
+    selectElement.appendChild(defaultOption);
+
+    for(var i in languages) {
+      var option = ResultsTemplate.createHTMLElement('option', {
+        value: languages[i].alpha2,
+      });
+
+      option.textContent = languages[i].English;
+
+      selectElement.appendChild(option);
+    }
+
+    return selectElement;
+  },
+  createRegionOptionElement: function(regions) {
+    var selectElement = ResultsTemplate.createHTMLElement('select', {
+      name: "tmdb-search-option-region",
+      id: "tmdb-search-option-region",
+      class: "tmdb-search-option"
+    });
+
+    var defaultOption = ResultsTemplate.createHTMLElement('option', {
+      value: "any",
+      selected: "true"
+    });
+
+    defaultOption.textContent = "any";
+
+    selectElement.appendChild(defaultOption);
+
+    for(var i in regions) {
+      var option = ResultsTemplate.createHTMLElement('option', {
+        value: regions[i].Code,
+      });
+
+      option.textContent = regions[i].Name;
+
+      selectElement.appendChild(option);
+    }
+
+    return selectElement;
   }
 }
 

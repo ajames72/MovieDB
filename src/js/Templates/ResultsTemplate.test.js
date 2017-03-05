@@ -3,6 +3,61 @@ var ResultsTemplate = require('./ResultsTemplate.js');
 var Result = require('../models/Result.js');
 
 describe('ResultsTemplate', function() {
+
+  var testLanguages = [
+    {
+      "alpha2": "de",
+      "English": "German"
+    },
+    {
+      "alpha2": "en",
+      "English": "English"
+    },
+    {
+      "alpha2": "es",
+      "English": "Spanish; Castilian"
+    },
+    {
+      "alpha2": "fr",
+      "English": "French"
+    },
+    {
+      "alpha2": "ja",
+      "English": "Japanese"
+    },
+    {
+      "alpha2": "ru",
+      "English": "Russian"
+    },
+    {
+      "alpha2": "tl",
+      "English": "Tagalog"
+    },
+    {
+      "alpha2": "zh",
+      "English": "Chinese"
+    }
+  ];
+
+  var testRegions = [
+    {
+      "Name": "Germany",
+      "Code": "DE"
+    },
+    {
+      "Name": "United Kingdom",
+      "Code": "GB"
+    },
+    {
+      "Name": "United States",
+      "Code": "US"
+    },
+    {
+      "Name": "China",
+      "Code": "CN"
+    }
+  ]
+
   var testConfig = {
     "images": {
       "base_url": "http://image.tmdb.org/t/p/",
@@ -188,6 +243,36 @@ describe('ResultsTemplate', function() {
   });
 
   /* @TODO Run some unit tests on the style attributes */
+  describe('on initialisation', function() {
+    it('should create a language options list', function() {
+      expect(ResultsTemplate.createLanguageOptionElement(testLanguages).nodeName).toBe('SELECT');
+    });
+
+    describe('language options list', function() {
+      it('should contain language options', function() {
+        expect(ResultsTemplate.createLanguageOptionElement(testLanguages).childNodes.length).toBe(9);
+      });
+
+      it('should contain an \'any\' option', function() {
+        expect(ResultsTemplate.createLanguageOptionElement(testLanguages).childNodes[0].getAttribute('value')).toEqual('any');
+      });
+    });
+
+    it('should create a region options list', function() {
+      expect(ResultsTemplate.createRegionOptionElement(testRegions).nodeName).toBe('SELECT');
+    });
+
+    describe('region options list', function() {
+      it('should contain region options', function() {
+        expect(ResultsTemplate.createRegionOptionElement(testRegions).childNodes.length).toBe(5);
+      });
+
+      it('should contain an \'any\' option', function() {
+        expect(ResultsTemplate.createRegionOptionElement(testRegions).childNodes[0].getAttribute('value')).toEqual('any');
+      });
+    });
+
+  });
 
   describe('on successful search', function() {
 
@@ -237,4 +322,5 @@ describe('ResultsTemplate', function() {
       });
     });
   });
+
 });

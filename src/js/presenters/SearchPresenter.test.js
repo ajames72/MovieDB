@@ -18,6 +18,49 @@ describe('SearchPresenter', function() {
           '<button type="submit" name="submit" id="submit" value="Search">Search</button>' +
         '</div>' +
       '</div>' +
+      '<div class="tmdb-search-options">' +
+        '<div class="tmdb-option">' +
+          '<div class="tmdb-option__field">' +
+            '<input type="checkbox" class="tmdb-search-option" id="tmdb-search-option-adult" name="tmdb-search-option-adult" checked="true" />' +
+          '</div>' +
+          '<div class="tmdb-option__field" id="langOpts">' +
+          '<select name="tmdb-search-option-language" id="tmdb-search-option-language" class="tmdb-search-option">' +
+            '<option value="any">any</option>' +
+            '<option value="aa" selected="true">Afar</option>' +
+            '<option value="ab">Abkhazian</option>' +
+            '<option value="ae">Avestan</option>' +
+            '<option value="af">Afrikaans</option>' +
+            '<option value="ak">Akan</option>' +
+          '</select>' +
+          '</div>' +
+          '<div class="tmdb-option__field" id="regionOpts">' +
+          '<select name="tmdb-search-option-region" id="tmdb-search-option-region" class="tmdb-search-option">' +
+            '<option value="any">any</option>' +
+            '<option value="AF">Afghanistan</option>' +
+            '<option value="AX">Åland Islands</option>' +
+            '<option value="AL">Albania</option>' +
+            '<option value="DZ">Algeria</option>' +
+            '<option value="AS" selected="true">American Samoa</option>' +
+          '</select>' +
+          '</div>' +
+          '<div class="tmdb-option__field">' +
+            '<input type="number" class="tmdb-search-option" id="tmdb-search-option-year" name="tmdb-search-option-year" max="2017" value="2000" />' +
+          '</div>' +
+          '<div class="tmdb-option__field">' +
+            '<input type="number" class="tmdb-search-option" id="tmdb-search-option-primary" name="tmdb-search-option-primary" max="2017" value="2000" />' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="tmdb-result" id="tmdb-result">' +
+        '<div class="tmdb-movie">' +
+          '<div class="tmdb-movie__image"><img src="http://image.tmdb.org/t/p/w92/tvSlBzAdRE29bZe5yYWrJ2ds137.jpg" alt="Star Wars"></div>' +
+          '<div class="tmdb-movie__description"></div>' +
+        '</div>' +
+        '<div class="tmdb-movie">' +
+          '<div class="tmdb-movie__image"><img src="http://image.tmdb.org/t/p/w92/weUSwMdQIa3NaXVzwUoIIcAi85d.jpg" alt="Star Wars: The Force Awakens"></div>' +
+          '<div class="tmdb-movie__description"></div>' +
+        '</div>' +
+      '</div>' +
     '</div>';
 
     document.body.insertAdjacentHTML(
@@ -47,46 +90,12 @@ describe('SearchPresenter', function() {
   });
 
   describe('initialisation process', function() {
-    /*
-    beforeEach(function(){
 
-      var mockResponse = {
-        "images": {
-          "base_url": "http://image.tmdb.org/t/p/",
-          "secure_base_url": "https://image.tmdb.org/t/p/",
-          "backdrop_sizes": [
-            "w300",
-            "w780",
-            "w1280",
-            "original"
-          ],
-          "logo_sizes": [
-            "w45",
-            "w500",
-            "original"
-          ],
-          "poster_sizes": [
-            "w92",
-            "w780",
-            "original"
-          ]
-        },
-        "change_keys": [
-          "adult",
-          "air_date",
-          "also_known_as",
-        ]
-      };
-
-      promiseHelper.resolve(mockResponse);
-    });
-    */
     beforeEach(function() {
       SearchPresenter.initialise();
     });
 
     it('should get the Movie Database configuation', function() {
-      //expect(Config.TMDbConfiguration).toBeDefined();
       expect(API.getMovieDBConfig).toHaveBeenCalledWith(Config.getTMDBConfigurationAPI());
     });
 
@@ -131,8 +140,38 @@ describe('SearchPresenter', function() {
       expect(testSubmit).toEqual(jasmine.any(Promise));
     });
 
-    it('should get the value from the input field', function() {
-      expect(SearchPresenter.getSearchTerm()).toEqual("Star Wars");
+    describe('search options', function() {
+
+      var options;
+
+      beforeEach(function() {
+        options = SearchPresenter.getSearchOptions();
+      });
+
+      it('should set the include_adult option', function() {
+        expect(options.include_adult).toEqual('&include_adult=true');
+      });
+
+      it('should set the language option', function() {
+        expect(options.language).toEqual('&language=aa');
+      });
+
+      it('should set the region option', function() {
+        expect(options.region).toEqual('&region=AS');
+      });
+
+      it('should set the year option', function() {
+        expect(options.year).toEqual('&year=2000');
+      });
+
+      it('should set the primary_release_year', function() {
+        expect(options.primary_release_year).toEqual('&primary_release_year=2000');
+      });
+
+      it('should create the parameter string', function() {
+        expect(SearchPresenter.getSearchParameters())
+        .toEqual('Star%20Wars&include_adult=true&language=aa&region=AS&year=2000&primary_release_year=2000');
+      });
     });
 
     describe('on a successful request', function() {
@@ -181,4 +220,10 @@ describe('SearchPresenter', function() {
     });
   });
 
+  describe('reset', function() {
+    it('should remove the results from the UI', function() {
+      SearchPresenter.removeResults();
+      expect(document.getElementById('tmdb-result')).toBeFalsy();
+    });
+  });
 });

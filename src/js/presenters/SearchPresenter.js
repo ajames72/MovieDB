@@ -12,6 +12,8 @@ var API = require('../api/API.js');
 var Result = require('../models/Result.js');
 var ResultsTemplate = require('../templates/ResultsTemplate.js');
 
+
+
 var SearchPresenter = {
   /**
    * @description reference to the test input element
@@ -29,11 +31,25 @@ var SearchPresenter = {
 	 * @returns {boolean}
 	 **/
   initialise: function() {
-
+    /* @TODO put into functions */
     API.getMovieDBConfig(Config.getTMDBConfigurationAPI()).then(function(response) {
       Config.TMDbConfiguration = response;
     }, function(error) {
       //Do something
+    });
+
+    API.getISO639_1Codes(Config.getISO639_1CodeSrc()).then(function(response) {
+      var languageOptionField = document.getElementById("langOpts");
+      languageOptionField.appendChild(ResultsTemplate.createLanguageOptionElement(response));
+    }, function(error) {
+
+    });
+
+    API.getISO3166_1Codes(Config.getISO3166_1CodeSrc()).then(function(response) {
+      var regionOptionField = document.getElementById("regionOpts");
+      regionOptionField.appendChild(ResultsTemplate.createRegionOptionElement(response));
+    }, function(error) {
+
     });
 
     SearchPresenter.inputField = document.getElementById("searchbox");
@@ -52,8 +68,9 @@ var SearchPresenter = {
 	 **/
   createEventListener: function() {
     SearchPresenter.submitButton.addEventListener('click', function() {
-      SearchPresenter.submit(SearchPresenter.getSearchTerm()).then(
+      SearchPresenter.submit(SearchPresenter.getSearchParameters()).then(
         function(result) {
+          SearchPresenter.removeResults();
           SearchPresenter.displayResults(result);
         },
         function(err) {
@@ -67,8 +84,67 @@ var SearchPresenter = {
 	 * @param none
 	 * @returns none
 	 **/
+  /*
   getSearchTerm: function() {
     return SearchPresenter.inputField.value;
+  },
+  */
+  /**
+	 * @description gets the search term from the input field plus search options and creates an encoded URL parameter string
+	 * @param none
+	 * @returns {string}
+	 **/
+  getSearchParameters: function() {
+    var parameters = SearchPresenter.inputField.value;
+    var options = SearchPresenter.getSearchOptions();
+
+    for(var key in options) {
+      if(options.hasOwnProperty(key)) {
+        parameters = parameters.concat(options[key]);
+      }
+    }
+
+    return encodeURI(parameters);
+  },
+  /**
+	 * @description gets the search options
+	 * @param none
+	 * @returns {object}
+	 **/
+  getSearchOptions: function() {
+    var inputElements = document.getElementsByClassName('tmdb-search-option');
+
+    var options = {};
+
+    if(inputElements[0].checked) {
+      options['include_adult'] = "&include_adult=true";
+    }
+
+    var language = inputElements[1].options[inputElements[1].selectedIndex].value;
+
+    if(language !== 'any') {
+      options['language'] = "&language=" + language;
+    }
+
+    var region = inputElements[2].options[inputElements[2].selectedIndex].value;
+
+    if(region !== 'any') {
+      options['region'] = "&region=" + region;
+    }
+
+    var year = parseInt(inputElements[3].value, 10);
+
+    if(!isNaN(year)) {
+      options['year'] = "&year=" + year;
+    }
+
+    var primary = parseInt(inputElements[4].value, 10);
+
+    if(!isNaN(primary)) {
+      options['primary_release_year'] = "&primary_release_year=" + primary;
+    }
+
+    return options;
   },
   /**
 	 * @description search action for the Movie Database RESTful /search/movie resource
@@ -91,7 +167,7 @@ var SearchPresenter = {
    * @returns none
    */
   displayResults: function(results) {
-
+    // Need to clear previous results
     var app = document.getElementById("app");
 
     var resultsNode = ResultsTemplate.createRootElement();
@@ -103,6 +179,18 @@ var SearchPresenter = {
     }
 
     app.appendChild(resultsNode);
+  },
+  /**
+   * @description remove previous results
+   * @param none
+   * @returns none
+   */
+  removeResults: function() {
+    var element = document.getElementById("tmdb-result");
+
+    if(element instanceof HTMLElement) {
+      element.parentNode.removeChild(element);
+    }
   }
 }
 

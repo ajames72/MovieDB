@@ -4,13 +4,22 @@
 
 body {
 	background-color: @bgColor;
+	font-family: Arial;
+	color: @foreColor;
 }
 div {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 	border: 0;
-	color: @foreColor;
+}
+
+input {
+	border: none;
+	box-shadow: none;
+	font-weight: normal;
+	background-color: @off-white;
+	color: @near-black;
 }
 
 input:focus,
@@ -24,55 +33,83 @@ button:focus {
 	text-align: center;
 }
 
-.tmdb-search {
-
+#tmdb-search-form {
 	display: inline-block;
+}
+
+.tmdb-search,
+.tmdb-search__options {
 	width: 700px;
 	margin-left: auto;
 	margin-right: auto;
+}
 
-	.tmdb-search__input {
-		width: 580px;
+.tmdb-search {
+	display: inline-block;
+}
+
+.tmdb-search__input {
+	width: 580px;
+	float: left;
+
+	> input {
+		font-size: 1.375em;
+		width: 564px;
+		padding-left: 16px;
+		height: 44px;
+		line-height: 44px;
 		float: left;
-
-		> input {
-			font-size: 1.375em;
-			width: 564px;
-			padding-left: 16px;
-			border: none;
-			box-shadow: none;
-			font-weight: normal;
-			background-color: @off-white;
-			color: @near-black;
-			height: 44px;
-			line-height: 44px;
-			float: left;
-			.border-radius(5px);
-		}
-
-	}
-	.tmdb-search__submit {
-		float: right;
-		width: 110px;
-
-		> button {
-			.gradient-background-vendor-prefixes(@button-color-from, @button-color-to);
-			.border-radius(5px);
-			font-family: Arial;
-			color: #ffffff;
-			font-size: 20px;
-			padding: 10px 20px 10px 20px;
-			text-decoration: none;
-			box-shadow: none;
-
-			&:hover {
-				.gradient-background-vendor-prefixes(@button-color-from-hover, @button-color-to-hover);
-				text-decoration: none;
-			}
-		}
-
+		.border-radius(5px);
 	}
 }
+
+.tmdb-search__submit {
+	float: right;
+	width: 110px;
+
+	> button {
+		.gradient-background-vendor-prefixes(@button-color-from, @button-color-to);
+		.border-radius(5px);
+		font-family: Arial;
+		color: #ffffff;
+		font-size: 20px;
+		padding: 10px 20px 10px 20px;
+		text-decoration: none;
+		box-shadow: none;
+
+		&:hover {
+			.gradient-background-vendor-prefixes(@button-color-from-hover, @button-color-to-hover);
+			text-decoration: none;
+		}
+	}
+}
+
+.tmdb-search-options {
+	select {
+		width: 75px;
+	}
+
+	header,
+	.tmdb-option {
+		width: 100%;
+		display: block;
+	}
+
+	.tmdb-option {
+		margin-top: 15px;
+	}
+
+	.tmdb-option__field {
+		display: inline-block;
+
+		input[type="number"] {
+			.border-radius(3px);
+			width: 45px;
+		}
+	}
+
+}
+
 .tmdb-result {
 
 	display: block;

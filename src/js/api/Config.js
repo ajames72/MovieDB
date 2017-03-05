@@ -51,7 +51,19 @@ var Config = {
    * @description
    * @type {object}
    */
-  TMDbConfiguration: undefined
+  TMDbConfiguration: undefined,
+  getISO639_1CodeSrc: function() {
+    return {
+      url: "http://data.okfn.org/data/core/language-codes/r/language-codes.json",
+      method: "GET"
+    }
+  },
+  getISO3166_1CodeSrc: function() {
+    return {
+      url: "http://data.okfn.org/data/core/country-list/r/data.json",
+      method: "GET"
+    }
+  }
 }
 
 module.exports = Config;

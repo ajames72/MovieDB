@@ -97,7 +97,7 @@
 
 
 	// module
-	exports.push([module.id, "/* Poster Sizes */\n/* based on a poster ratio of 13:20 */\nbody {\n  background-color: #004225;\n}\ndiv {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  border: 0;\n  color: #efefef;\n}\ninput:focus,\nbutton:focus {\n  outline: none;\n}\n#app {\n  width: 100%;\n  display: inline-block;\n  text-align: center;\n}\n.tmdb-search {\n  display: inline-block;\n  width: 700px;\n  margin-left: auto;\n  margin-right: auto;\n}\n.tmdb-search .tmdb-search__input {\n  width: 580px;\n  float: left;\n}\n.tmdb-search .tmdb-search__input > input {\n  font-size: 1.375em;\n  width: 564px;\n  padding-left: 16px;\n  border: none;\n  box-shadow: none;\n  font-weight: normal;\n  background-color: #efefef;\n  color: #010101;\n  height: 44px;\n  line-height: 44px;\n  float: left;\n  -webkit-border-radius: 5px;\n  -moz-border-radius: 5px;\n  border-radius: 5px;\n}\n.tmdb-search .tmdb-search__submit {\n  float: right;\n  width: 110px;\n}\n.tmdb-search .tmdb-search__submit > button {\n  background: linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  background: -webkit-linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  background: -ms-linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  background: -o-linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  background: -moz-linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  -webkit-border-radius: 5px;\n  -moz-border-radius: 5px;\n  border-radius: 5px;\n  font-family: Arial;\n  color: #ffffff;\n  font-size: 20px;\n  padding: 10px 20px 10px 20px;\n  text-decoration: none;\n  box-shadow: none;\n}\n.tmdb-search .tmdb-search__submit > button:hover {\n  background: linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  background: -webkit-linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  background: -ms-linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  background: -o-linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  background: -moz-linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  text-decoration: none;\n}\n.tmdb-result {\n  display: block;\n  width: auto;\n  margin: 0 7%;\n}\n.tmdb-result .tmdb-movie {\n  display: inline-block;\n}\n.tmdb-result .tmdb-movie > .tmdb-movie__image {\n  display: inline-block;\n  background-color: #005630;\n  width: 102px;\n  height: 151.53846154px;\n  padding: 5px;\n  margin: 5px;\n  border: 1px solid black;\n  overflow: hidden;\n}\n.tmdb-result .tmdb-movie > .tmdb-movie__image > img {\n  width: 87px;\n  height: 136.53846154px;\n  border: 1px solid black;\n}\n", ""]);
+	exports.push([module.id, "/* Poster Sizes */\n/* based on a poster ratio of 13:20 */\nbody {\n  background-color: #004225;\n  font-family: Arial;\n  color: #efefef;\n}\ndiv {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\ninput {\n  border: none;\n  box-shadow: none;\n  font-weight: normal;\n  background-color: #efefef;\n  color: #010101;\n}\ninput:focus,\nbutton:focus {\n  outline: none;\n}\n#app {\n  width: 100%;\n  display: inline-block;\n  text-align: center;\n}\n#tmdb-search-form {\n  display: inline-block;\n}\n.tmdb-search,\n.tmdb-search__options {\n  width: 700px;\n  margin-left: auto;\n  margin-right: auto;\n}\n.tmdb-search {\n  display: inline-block;\n}\n.tmdb-search__input {\n  width: 580px;\n  float: left;\n}\n.tmdb-search__input > input {\n  font-size: 1.375em;\n  width: 564px;\n  padding-left: 16px;\n  height: 44px;\n  line-height: 44px;\n  float: left;\n  -webkit-border-radius: 5px;\n  -moz-border-radius: 5px;\n  border-radius: 5px;\n}\n.tmdb-search__submit {\n  float: right;\n  width: 110px;\n}\n.tmdb-search__submit > button {\n  background: linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  background: -webkit-linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  background: -ms-linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  background: -o-linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  background: -moz-linear-gradient(90deg, #ccc 0%, #999 50%, #ccc 100%);\n  -webkit-border-radius: 5px;\n  -moz-border-radius: 5px;\n  border-radius: 5px;\n  font-family: Arial;\n  color: #ffffff;\n  font-size: 20px;\n  padding: 10px 20px 10px 20px;\n  text-decoration: none;\n  box-shadow: none;\n}\n.tmdb-search__submit > button:hover {\n  background: linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  background: -webkit-linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  background: -ms-linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  background: -o-linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  background: -moz-linear-gradient(90deg, #ddd 0%, #aaa 50%, #ddd 100%);\n  text-decoration: none;\n}\n.tmdb-search-options select {\n  width: 75px;\n}\n.tmdb-search-options header,\n.tmdb-search-options .tmdb-option {\n  width: 100%;\n  display: block;\n}\n.tmdb-search-options .tmdb-option {\n  margin-top: 15px;\n}\n.tmdb-search-options .tmdb-option__field {\n  display: inline-block;\n}\n.tmdb-search-options .tmdb-option__field input[type=\"number\"] {\n  -webkit-border-radius: 3px;\n  -moz-border-radius: 3px;\n  border-radius: 3px;\n  width: 45px;\n}\n.tmdb-result {\n  display: block;\n  width: auto;\n  margin: 0 7%;\n}\n.tmdb-result .tmdb-movie {\n  display: inline-block;\n}\n.tmdb-result .tmdb-movie > .tmdb-movie__image {\n  display: inline-block;\n  background-color: #005630;\n  width: 102px;\n  height: 151.53846154px;\n  padding: 5px;\n  margin: 5px;\n  border: 1px solid black;\n  overflow: hidden;\n}\n.tmdb-result .tmdb-movie > .tmdb-movie__image > img {\n  width: 87px;\n  height: 136.53846154px;\n  border: 1px solid black;\n}\n", ""]);
 
 	// exports
 
@@ -428,6 +428,8 @@
 	var Result = __webpack_require__(11);
 	var ResultsTemplate = __webpack_require__(13);
 
+
+
 	var SearchPresenter = {
 	  /**
 	   * @description reference to the test input element
@@ -445,11 +447,25 @@
 		 * @returns {boolean}
 		 **/
 	  initialise: function() {
-
+	    /* @TODO put into functions */
 	    API.getMovieDBConfig(Config.getTMDBConfigurationAPI()).then(function(response) {
 	      Config.TMDbConfiguration = response;
 	    }, function(error) {
 	      //Do something
+	    });
+
+	    API.getISO639_1Codes(Config.getISO639_1CodeSrc()).then(function(response) {
+	      var languageOptionField = document.getElementById("langOpts");
+	      languageOptionField.appendChild(ResultsTemplate.createLanguageOptionElement(response));
+	    }, function(error) {
+
+	    });
+
+	    API.getISO3166_1Codes(Config.getISO3166_1CodeSrc()).then(function(response) {
+	      var regionOptionField = document.getElementById("regionOpts");
+	      regionOptionField.appendChild(ResultsTemplate.createRegionOptionElement(response));
+	    }, function(error) {
+
 	    });
 
 	    SearchPresenter.inputField = document.getElementById("searchbox");
@@ -468,8 +484,9 @@
 		 **/
 	  createEventListener: function() {
 	    SearchPresenter.submitButton.addEventListener('click', function() {
-	      SearchPresenter.submit(SearchPresenter.getSearchTerm()).then(
+	      SearchPresenter.submit(SearchPresenter.getSearchParameters()).then(
 	        function(result) {
+	          SearchPresenter.removeResults();
 	          SearchPresenter.displayResults(result);
 	        },
 	        function(err) {
@@ -483,8 +500,67 @@
 		 * @param none
 		 * @returns none
 		 **/
+	  /*
 	  getSearchTerm: function() {
 	    return SearchPresenter.inputField.value;
+	  },
+	  */
+	  /**
+		 * @description gets the search term from the input field plus search options and creates an encoded URL parameter string
+		 * @param none
+		 * @returns {string}
+		 **/
+	  getSearchParameters: function() {
+	    var parameters = SearchPresenter.inputField.value;
+	    var options = SearchPresenter.getSearchOptions();
+
+	    for(var key in options) {
+	      if(options.hasOwnProperty(key)) {
+	        parameters = parameters.concat(options[key]);
+	      }
+	    }
+
+	    return encodeURI(parameters);
+	  },
+	  /**
+		 * @description gets the search options
+		 * @param none
+		 * @returns {object}
+		 **/
+	  getSearchOptions: function() {
+	    var inputElements = document.getElementsByClassName('tmdb-search-option');
+
+	    var options = {};
+
+	    if(inputElements[0].checked) {
+	      options['include_adult'] = "&include_adult=true";
+	    }
+
+	    var language = inputElements[1].options[inputElements[1].selectedIndex].value;
+
+	    if(language !== 'any') {
+	      options['language'] = "&language=" + language;
+	    }
+
+	    var region = inputElements[2].options[inputElements[2].selectedIndex].value;
+
+	    if(region !== 'any') {
+	      options['region'] = "&region=" + region;
+	    }
+
+	    var year = parseInt(inputElements[3].value, 10);
+
+	    if(!isNaN(year)) {
+	      options['year'] = "&year=" + year;
+	    }
+
+	    var primary = parseInt(inputElements[4].value, 10);
+
+	    if(!isNaN(primary)) {
+	      options['primary_release_year'] = "&primary_release_year=" + primary;
+	    }
+
+	    return options;
 	  },
 	  /**
 		 * @description search action for the Movie Database RESTful /search/movie resource
@@ -507,7 +583,7 @@
 	   * @returns none
 	   */
 	  displayResults: function(results) {
-
+	    // Need to clear previous results
 	    var app = document.getElementById("app");
 
 	    var resultsNode = ResultsTemplate.createRootElement();
@@ -519,6 +595,18 @@
 	    }
 
 	    app.appendChild(resultsNode);
+	  },
+	  /**
+	   * @description remove previous results
+	   * @param none
+	   * @returns none
+	   */
+	  removeResults: function() {
+	    var element = document.getElementById("tmdb-result");
+
+	    if(element instanceof HTMLElement) {
+	      element.parentNode.removeChild(element);
+	    }
 	  }
 	}
 
@@ -582,7 +670,19 @@
 	   * @description
 	   * @type {object}
 	   */
-	  TMDbConfiguration: undefined
+	  TMDbConfiguration: undefined,
+	  getISO639_1CodeSrc: function() {
+	    return {
+	      url: "http://data.okfn.org/data/core/language-codes/r/language-codes.json",
+	      method: "GET"
+	    }
+	  },
+	  getISO3166_1CodeSrc: function() {
+	    return {
+	      url: "http://data.okfn.org/data/core/country-list/r/data.json",
+	      method: "GET"
+	    }
+	  }
 	}
 
 	module.exports = Config;
@@ -634,13 +734,12 @@
 	  /**
 		 * @description calls the /search/movie resource
 		 * @param {object} settings - the url and http method taken from Config
-	   * @param {string} searchTerm - value used to search the Movie Database
-	   * @param {object} searchOptions - additional optional search refinement key value pairs
+	   * @param {string} searchParameters - value used to search the Movie Database plus additional optional search refinement key value pairs
 		 * @returns {promise}
 		 **/
-	  searchMovieDB: function(settings, searchTerm, searchOptions) {
+	  searchMovieDB: function(settings, searchParameters) {
 
-	    var requestString = settings.url.concat(encodeURI(searchTerm));
+	    var requestString = settings.url.concat(searchParameters);
 
 	    return new Promise(function(resolve, reject) {
 	      var oReq = new XMLHttpRequest();
@@ -690,6 +789,98 @@
 
 	      oReq.send();
 	    })
+	  },
+	  getISO639_1Codes: function(settings) {
+	    return new Promise(function(resolve, reject) {
+	      var oReq = new XMLHttpRequest();
+
+	      oReq.onreadystatechange = function(){
+	        if(oReq.readyState === 4) {
+	          switch(oReq.status) {
+	            case 200:
+	              resolve(JSON.parse(oReq.response));
+	              break;
+	            default:
+	              reject({status: oReq.status, errorResponse: [
+	                {
+	                  "alpha2": "de",
+	                  "English": "German"
+	                },
+	                {
+	                  "alpha2": "en",
+	                  "English": "English"
+	                },
+	                {
+	                  "alpha2": "es",
+	                  "English": "Spanish; Castilian"
+	                },
+	                {
+	                  "alpha2": "fr",
+	                  "English": "French"
+	                },
+	                {
+	                  "alpha2": "ja",
+	                  "English": "Japanese"
+	                },
+	                {
+	                  "alpha2": "ru",
+	                  "English": "Russian"
+	                },
+	                {
+	                  "alpha2": "tl",
+	                  "English": "Tagalog"
+	                },
+	                {
+	                  "alpha2": "zh",
+	                  "English": "Chinese"
+	                }
+	              ]});
+	          }
+	        }
+	      }
+
+	      oReq.open(settings.method, settings.url);
+
+	      oReq.send();
+	    });
+	  },
+	  getISO3166_1Codes: function(settings) {
+	    return new Promise(function(resolve, reject) {
+	      var oReq = new XMLHttpRequest();
+
+	      oReq.onreadystatechange = function(){
+	        if(oReq.readyState === 4) {
+	          switch(oReq.status) {
+	            case 200:
+	              resolve(JSON.parse(oReq.response));
+	              break;
+	            default:
+	              reject({status: oReq.status, errorResponse: [
+	                {
+	                  "Name": "Germany",
+	                  "Code": "DE"
+	                },
+	                {
+	                  "Name": "United Kingdom",
+	                  "Code": "GB"
+	                },
+	                {
+	                  "Name": "United States",
+	                  "Code": "US"
+	                },
+	                {
+	                  "Name": "China",
+	                  "Code": "CN"
+	                }
+	              ]});
+	          }
+	        }
+	      }
+
+	      oReq.open(settings.method, settings.url);
+
+	      oReq.send();
+	    });
 	  }
 	};
 
@@ -892,7 +1083,8 @@
 	  createRootElement: function() {
 
 	    return ResultsTemplate.createHTMLElement('div', {
-	      className: "tmdb-result"
+	      className: "tmdb-result",
+	      id: "tmdb-result"
 	    });
 
 	  },
@@ -942,6 +1134,62 @@
 	    movieImage.appendChild(movieImgElement);
 
 	    return movieImage;
+	  },
+	  createLanguageOptionElement: function(languages) {
+	    var selectElement = ResultsTemplate.createHTMLElement('select', {
+	      name: "tmdb-search-option-language",
+	      id: "tmdb-search-option-language",
+	      class: "tmdb-search-option"
+	    });
+
+	    var defaultOption = ResultsTemplate.createHTMLElement('option', {
+	      value: "any",
+	      selected: "true"
+	    });
+
+	    defaultOption.textContent = "any";
+
+	    selectElement.appendChild(defaultOption);
+
+	    for(var i in languages) {
+	      var option = ResultsTemplate.createHTMLElement('option', {
+	        value: languages[i].alpha2,
+	      });
+
+	      option.textContent = languages[i].English;
+
+	      selectElement.appendChild(option);
+	    }
+
+	    return selectElement;
+	  },
+	  createRegionOptionElement: function(regions) {
+	    var selectElement = ResultsTemplate.createHTMLElement('select', {
+	      name: "tmdb-search-option-region",
+	      id: "tmdb-search-option-region",
+	      class: "tmdb-search-option"
+	    });
+
+	    var defaultOption = ResultsTemplate.createHTMLElement('option', {
+	      value: "any",
+	      selected: "true"
+	    });
+
+	    defaultOption.textContent = "any";
+
+	    selectElement.appendChild(defaultOption);
+
+	    for(var i in regions) {
+	      var option = ResultsTemplate.createHTMLElement('option', {
+	        value: regions[i].Code,
+	      });
+
+	      option.textContent = regions[i].Name;
+
+	      selectElement.appendChild(option);
+	    }
+
+	    return selectElement;
 	  }
 	}
 

@@ -5,13 +5,43 @@
     <title>Movie DB Search</title>
   </head>
   <body>
+    <header>
+      <h1>The Movie Database Search</h1>
+    </header>
     <div id="app">
-      <div class="tmdb-search">
-        <div class="tmdb-search__input">
-          <input type="text" name="searchbox" id="searchbox" />
+      <div id="tmdb-search-form">
+        <div class="tmdb-search">
+          <div class="tmdb-search__input">
+            <input type="text" name="searchbox" id="searchbox" />
+          </div>
+          <div class="tmdb-search__submit">
+            <button type="submit" name="submit" id="submit" value="Search">Search</button>
+          </div>
         </div>
-        <div class="tmdb-search__submit">
-          <button type="submit" name="submit" id="submit" value="Search">Search</button>
+        <div class="tmdb-search-options">
+          <header>
+            <h2>Search Options</h2>
+          </header>
+          <div class="tmdb-option">
+            <div class="tmdb-option__field">
+              <label for="tmdb-search-option-adult">Adult</label>
+              <input type="checkbox" class="tmdb-search-option" id="tmdb-search-option-adult" name="tmdb-search-option-adult" />
+            </div>
+            <div class="tmdb-option__field" id="langOpts">
+              <label for="tmdb-search-option-language">Language</label>
+            </div>
+            <div class="tmdb-option__field" id="regionOpts">
+              <label for="tmdb-search-option-region">Region</label>
+            </div>
+            <div class="tmdb-option__field">
+              <label for="tmdb-search-option-year">Year</label>
+              <input type="number" class="tmdb-search-option" id="tmdb-search-option-year" name="tmdb-search-option-year" max="2017" />
+            </div>
+            <div class="tmdb-option__field">
+              <label for="tmdb-search-option-primary">Primary Release Year</label>
+              <input type="number" class="tmdb-search-option" id="tmdb-search-option-primary" name="tmdb-search-option-primary" max="2017" />
+            </div>
+          </div>
         </div>
       </div>
     </div>

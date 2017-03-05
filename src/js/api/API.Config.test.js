@@ -164,7 +164,7 @@ describe('Config API', function() {
         }));
       });
     });
-    // Test for error
+    //@TODO Test for error
   });
 
   describe('API response on a status code 401', function() {

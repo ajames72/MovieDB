@@ -27,4 +27,22 @@ describe('The RESTful API Config', function() {
   it('should use the GET method for the configuration RESTful API', function() {
     expect(Config.getTMDBConfigurationAPI().method).toEqual('GET');
   });
+
+  it('should get the configuration for ISO639_1 codes', function() {
+    expect(Config.getISO639_1CodeSrc().url)
+      .toEqual("http://data.okfn.org/data/core/language-codes/r/language-codes.json");
+  });
+
+  it('should use the GET method for the configuration ISO639_1 codes', function() {
+    expect(Config.getISO639_1CodeSrc().method).toEqual('GET');
+  });
+
+  it('should get the configuration ISO3166_1 codes', function() {
+    expect(Config.getISO3166_1CodeSrc().url)
+      .toEqual("http://data.okfn.org/data/core/country-list/r/data.json");
+  });
+
+  it('should use the GET method for the configuration ISO3166_1 codes', function() {
+    expect(Config.getISO3166_1CodeSrc().method).toEqual('GET');
+  });
 });
